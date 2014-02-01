@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib/loader.js - Demi.js API</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Demi.js API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Demi.html">Demi</a></li>
+            
+                <li><a href="../classes/Loader.html">Loader</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: lib/loader.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*
+ * demi
+ * https://github.com/chrisenytc/demi
+ *
+ * Copyright (c) 2014 Christopher EnyTC
+ * Licensed under the MIT license.
+ */
+
+&#x27;use strict&#x27;;
+
+/*
+ * Module Dependencies
+ */
+var fs = require(&#x27;fs&#x27;);
+var path = require(&#x27;path&#x27;);
+var join = path.resolve;
+var readdir = fs.readdirSync;
+var exists = fs.existsSync;
+var _ = require(&#x27;underscore&#x27;);
+_.str = require(&#x27;underscore.string&#x27;);
+require(&#x27;colors&#x27;);
+
+/**
+@class Loader
+ */
+
+/*
+ * Private Methods
+ */
+
+
+/**
+ * Method responsible for loadding api files
+ *
+ * @example
+ *
+ *     load(__dirname, function(filePath) {
+ *      //
+ *    });
+ *
+ * @method load
+ * @param {String} root Application root directory
+ * @return {Function} Returns callback with filePath
+ */
+
+function load(root, cb) {
+  var fullPath = join(__dirname, &#x27;..&#x27;, &#x27;api&#x27;, root);
+  var ENV = process.env.NODE_ENV || &#x27;development&#x27;;
+  //
+  if (root === &#x27;config&#x27;) {
+    var configPath = join(fullPath, ENV);
+    //Read this directory
+    if (exists(configPath)) {
+      readdir(configPath).forEach(function (file) {
+        if (fs.statSync(join(configPath, file)).isFile()) {
+          //Resolve file path
+          var filePath = join(configPath, file);
+          //Check if this file exists
+          if (exists(filePath)) {
+            //Run callback
+            var fileName = file.replace(/\.js$/, &#x27;&#x27;);
+            fileName = fileName.replace(/\.json$/, &#x27;&#x27;);
+            cb(filePath, fileName);
+          }
+        }
+      });
+    } else {
+      console.log(&#x27;ERROR: The &#x27;.red + ENV.white + &#x27; environment not exists in api/config&#x27;.red);
+      process.exit(0);
+    }
+  } else {
+    //Read this directory
+    readdir(fullPath).forEach(function (file) {
+      if (fs.statSync(join(fullPath, file)).isFile()) {
+        //Resolve file path
+        var filePath = join(fullPath, file);
+        //Check if this file exists
+        if (exists(filePath)) {
+          //Run callback
+          var fileName = file.replace(/\.js$/, &#x27;&#x27;);
+          fileName = fileName.replace(/\.json$/, &#x27;&#x27;);
+          cb(filePath, fileName);
+        }
+      }
+    });
+  }
+}
+
+/*
+ * Public Methods
+ */
+
+/**
+ * Method responsible for loadding custom settings
+ *
+ * @example
+ *
+ *     loader.configs(app);
+ *
+ * @method configs
+ * @param {Object} app Instance of express();
+ */
+
+exports.configs = function (app) {
+  //Load Settings
+
+  load(&#x27;config&#x27;, function (filePath, fileName) {
+    //
+    var config = require(filePath);
+    //Set Property
+    app.set(fileName, config);
+  });
+
+};
+
+/**
+ * Method responsible for loadding middlewares
+ *
+ * @example
+ *
+ *     loader.middlewares(app);
+ *
+ * @method middlewares
+ * @param {Object} app Instance of express();
+ */
+
+exports.middlewares = function (app) {
+  //Load Middlewares
+
+  load(&#x27;middlewares&#x27;, function (filePath) {
+    //Require middleware
+    var midd = require(filePath);
+    //Check if the middleware is enabled
+    if (midd.enabled) {
+      app.use(midd.fn());
+    }
+  });
+
+  var middlewares = app.get(&#x27;middlewares&#x27;);
+
+  for(var mdd in middlewares) {
+    if(middlewares[mdd].enabled) {
+      app.use(require(middlewares[mdd].name)());
+    }
+  }
+
+};
+
+/**
+ * Method responsible for loadding services
+ *
+ * @example
+ *
+ *     loader.services(app);
+ *
+ * @method services
+ * @param {Object} app Instance of express();
+ */
+
+exports.services = function (app) {
+  //Load Webservices
+
+  load(&#x27;services&#x27;, function (filePath, fileName) {
+    //Check if exists
+    if (exists(filePath)) {
+      //Require webservice
+      var ws = require(filePath);
+      //Send WebService
+      app.get(&#x27;/ws/&#x27; + fileName, function (req, res) {
+        res.json(ws);
+      });
+
+      app.get(&#x27;/ws/&#x27; + fileName + &#x27;.json&#x27;, function (req, res) {
+        res.json(ws);
+      });
+    }
+  });
+
+};
+
+/**
+ * Method responsible for loadding models
+ *
+ * @example
+ *
+ *     loader.models(db);
+ *
+ * @method models
+ * @param {Object} db Mongoose connection
+ */
+
+exports.models = function () {
+  //Load Settings
+
+  //Models NameSpace
+
+  global.models = [];
+
+  load(&#x27;models&#x27;, function (filePath, fileName) {
+    //Require settings
+    global.models[_.str.capitalize(fileName)] = require(filePath);
+  });
+
+};
+
+/**
+ * Method responsible for loadding controllers
+ *
+ * @example
+ *
+ *     loader.controllers(app);
+ *
+ * @method controllers
+ * @param {Object} app Instance of express();
+ */
+
+exports.controllers = function (app) {
+  //Load controllers
+
+  load(&#x27;controllers&#x27;, function (filePath, fileName) {
+    //Require controller
+    var methods = require(filePath);
+    //Load All Methods
+    _.each(methods, function (ctrl, key) {
+      //Check method
+      if (ctrl.method) {
+        if (ctrl.path) {
+          var route = ctrl.path.replace(/:default/, fileName);
+          app[ctrl.method.toLowerCase()](route, ctrl.fn);
+        } else {
+          if (methods.index.fn) {
+            //Set Default method
+            app.get(join(&#x27;/&#x27;, fileName), methods.index.fn);
+          }
+          app[ctrl.method.toLowerCase()](join(&#x27;/&#x27;, fileName, key), ctrl.fn);
+        }
+      } else {
+        app.resource(fileName, methods, {
+          format: &#x27;json&#x27;
+        });
+      }
+    });
+  });
+
+};
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+    "name": "Demi.js API",
+    "description": "Demi.js API: An wonderful API framework for node.js",
+    "version": "0.1.0",
+    "url": "https://github.com/enytc/demi",
+    "options": {
+        "outdir": "./docs",
+        "paths": "./lib"
+    }
+}

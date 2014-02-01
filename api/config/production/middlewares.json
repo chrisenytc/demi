@@ -1,0 +1,14 @@
+[
+  {
+    "enabled": false,
+    "name": "demi-test"
+  },
+  {
+    "enabled": false,
+    "name": "demi-visits"
+  },
+  {
+    "enabled": false,
+    "name": "demi-unique-visits"
+  }
+]

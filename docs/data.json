@@ -1,0 +1,190 @@
+{
+    "project": {
+        "name": "Demi.js API",
+        "description": "Demi.js API: An wonderful API framework for node.js",
+        "version": "0.1.0",
+        "url": "https://github.com/enytc/demi"
+    },
+    "files": {
+        "lib/demi.js": {
+            "name": "lib/demi.js",
+            "modules": {},
+            "classes": {
+                "Demi": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/loader.js": {
+            "name": "lib/loader.js",
+            "modules": {},
+            "classes": {
+                "Loader": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Demi": {
+            "name": "Demi",
+            "shortname": "Demi",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/demi.js",
+            "line": 24
+        },
+        "Loader": {
+            "name": "Loader",
+            "shortname": "Loader",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/loader.js",
+            "line": 23
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib/demi.js",
+            "line": 61,
+            "description": "Constructor",
+            "example": [
+                "\n\n    var api = demi(5000);"
+            ],
+            "itemtype": "method",
+            "name": "Demi",
+            "params": [
+                {
+                    "name": "port",
+                    "description": "The app port",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns a instance of express();",
+                "type": "Object"
+            },
+            "class": "Demi"
+        },
+        {
+            "file": "lib/loader.js",
+            "line": 32,
+            "description": "Method responsible for loadding api files",
+            "example": [
+                "\n\n    load(__dirname, function(filePath) {\n     //\n   });"
+            ],
+            "itemtype": "method",
+            "name": "load",
+            "params": [
+                {
+                    "name": "root",
+                    "description": "Application root directory",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns callback with filePath",
+                "type": "Function"
+            },
+            "class": "Loader"
+        },
+        {
+            "file": "lib/loader.js",
+            "line": 93,
+            "description": "Method responsible for loadding custom settings",
+            "example": [
+                "\n\n    loader.configs(app);"
+            ],
+            "itemtype": "method",
+            "name": "configs",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "Instance of express();",
+                    "type": "Object"
+                }
+            ],
+            "class": "Loader"
+        },
+        {
+            "file": "lib/loader.js",
+            "line": 116,
+            "description": "Method responsible for loadding middlewares",
+            "example": [
+                "\n\n    loader.middlewares(app);"
+            ],
+            "itemtype": "method",
+            "name": "middlewares",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "Instance of express();",
+                    "type": "Object"
+                }
+            ],
+            "class": "Loader"
+        },
+        {
+            "file": "lib/loader.js",
+            "line": 149,
+            "description": "Method responsible for loadding services",
+            "example": [
+                "\n\n    loader.services(app);"
+            ],
+            "itemtype": "method",
+            "name": "services",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "Instance of express();",
+                    "type": "Object"
+                }
+            ],
+            "class": "Loader"
+        },
+        {
+            "file": "lib/loader.js",
+            "line": 181,
+            "description": "Method responsible for loadding models",
+            "example": [
+                "\n\n    loader.models(db);"
+            ],
+            "itemtype": "method",
+            "name": "models",
+            "params": [
+                {
+                    "name": "db",
+                    "description": "Mongoose connection",
+                    "type": "Object"
+                }
+            ],
+            "class": "Loader"
+        },
+        {
+            "file": "lib/loader.js",
+            "line": 206,
+            "description": "Method responsible for loadding controllers",
+            "example": [
+                "\n\n    loader.controllers(app);"
+            ],
+            "itemtype": "method",
+            "name": "controllers",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "Instance of express();",
+                    "type": "Object"
+                }
+            ],
+            "class": "Loader"
+        }
+    ],
+    "warnings": []
+}

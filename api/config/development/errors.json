@@ -1,0 +1,8 @@
+{
+  "404": {
+    "message": ":method :path  Not Found"
+  },
+  "500": {
+    "message": ":method :path  Internal Server Error"
+  }
+}

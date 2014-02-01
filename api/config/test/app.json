@@ -1,0 +1,9 @@
+{
+  "appname": "Demi.js - Test",
+  "description": "A wonderful API framework for node.js",
+  "powered_by": "Demi.js",
+  "default": {
+    "controller": "index",
+    "action": "index"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "demi",
   "description": "An wonderful API framework for node.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/enytc/demi",
   "author": {
     "name": "Christopher EnyTC",

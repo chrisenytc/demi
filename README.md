@@ -37,6 +37,25 @@ Test your demi app
 npm test
 ```
 
+##### Using Yeoman Generator
+
+Install Demi.js generator
+
+```shell
+npm install -g generator-demi
+```
+
+Run Demi.js
+
+```shell
+yo demi
+```
+
+For more informations access this links.
+
+NPM: [npm link](https://npmjs.org/package/generator-demi)
+Repository: [generator-demi](https://github.com/chrisenytc/generator-demi)
+
 ## Documentation
 
 ### Controllers

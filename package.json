@@ -1,0 +1,41 @@
+{
+  "name": "demi-site",
+  "description": "An wonderful API framework for node.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/enytc/demi",
+  "private": true,
+  "author": {
+    "name": "Christopher EnyTC",
+    "email": "chrisenytc@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/enytc/demi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/enytc/demi/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/enytc/demi/blob/master/LICENSE"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "build": "gulp start",
+    "ghpage": "gulp ghpage"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp": "~3.5.0",
+    "gulp-htmlmin": "~0.1.1",
+    "gulp-serve": "~0.1.0",
+    "gulp-uncss": "~0.2.1",
+    "gulp-rimraf": "~0.0.8"
+  },
+  "keywords": ["demi", "demijs", "demi-site"]
+}

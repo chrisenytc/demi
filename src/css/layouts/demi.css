@@ -1,0 +1,164 @@
+body {
+  background-color: #fff;
+  color: #777;
+}
+.pure-img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+/* Badges/Pills */
+
+.pure-badge,
+.pure-badge-error,
+.pure-badge-warning,
+.pure-badge-success,
+.pure-badge-info,
+.pure-badge-inverse,
+.pure-badge-custom {
+  padding: 0.35em 0.9em 0.35em;
+  background-color: #9D988E;
+  color: #fff;
+  display: inline-block;
+  font-size: 11.844px;
+  font-weight: bold;
+  line-height: 1.2em;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 20px;
+  margin: 0.2em;
+}
+.pure-badge-error {
+  background-color: #D13C38;
+}
+.pure-badge-warning {
+  background-color: #E78C05;
+}
+.pure-badge-success {
+  background-color: rgb(83, 180, 79);
+}
+.pure-badge-info {
+  background-color: rgb(18, 169, 218);
+}
+.pure-badge-inverse {
+  background-color: #4D370C;
+}
+.pure-badge-custom {
+  background-color: #de7186;
+}
+/* Alerts */
+
+.pure-alert {
+  position: relative;
+  margin-bottom: 1em;
+  padding: 1em;
+  background: #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+.pure-alert label {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  white-space: nowrap;
+}
+.pure-alert {
+  background-color: rgb(209, 235, 238);
+  color: rgb(102, 131, 145);
+}
+.pure-alert-error {
+  background-color: #D13C38;
+  color: #fff;
+}
+.pure-alert-warning {
+  background-color: rgb(250, 191, 103);
+  color: rgb(151, 96, 13);
+}
+.pure-alert-success {
+  background-color: rgb(83, 180, 79);
+  color: #fff;
+}
+.pure-alert-custom {
+  background-color: rgb(20, 20, 20);
+  color: #fff;
+}
+.pure-alert-custom a,
+a:link,
+a:visited {
+  color: #de7186;
+  text-decoration: none;
+  font-weight: bold;
+}
+.pure-alert-custom a:hover {
+  color: #e7c49e;
+}
+/*
+ Addons
+*/
+
+.pure-center {
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+}
+.pure-right {
+  text-align: right;
+}
+.pure-left {
+  text-align: left;
+}
+/*
+The content `<div>` is where all your content goes.
+*/
+
+.content {
+  margin: 0 auto;
+  padding: 0 2em;
+  max-width: 800px;
+  margin-bottom: 50px;
+  line-height: 1.6em;
+}
+.header {
+  margin: 0;
+  color: #333;
+  text-align: center;
+  padding: 2.5em 2em 0;
+  border-bottom: 1px solid #eee;
+}
+.header h1 {
+  margin: 0.2em 0;
+  font-size: 3em;
+  font-weight: 300;
+}
+.header h2 {
+  font-weight: 300;
+  color: #ccc;
+  padding: 0;
+  margin-top: 0;
+}
+.content-subhead {
+  margin: 50px 0 20px 0;
+  font-weight: 300;
+  color: #888;
+}
+/* -- Responsive Styles (Media Queries) ------------------------------------- */
+
+/*
+Hides the menu at `48em`, but modify this based on your app's needs.
+*/
+
+@media (min-width: 48em) {
+  .header,
+  .content {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+  #layout {
+    padding-left: 150px;
+    /* left col width "#menu" */
+    left: 0;
+  }
+  #layout.active .menu-link {
+    left: 150px;
+  }
+}

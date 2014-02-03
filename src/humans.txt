@@ -1,0 +1,23 @@
+/* TEAM */
+
+ChrisEnyTC: Christopher EnyTC.
+Site: http://chris.enytc.com
+Twitter: @chrisenytc
+Location: New York, USA
+[...]
+
+
+
+/* THANKS */
+
+Name: Chris.EnyTC.com
+[...]
+
+
+
+/* SITE */
+
+Last update: 2014/02/01
+Standards: HTML5, CSS3, JavaScript.
+Components: AngularJS, PureCSS.
+Software: Brackets, GulpJS.

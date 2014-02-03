@@ -1,0 +1,43 @@
+<h2 class="content-subhead">Demi.js middlewares</h2>
+
+<div class="pure-right">
+  <form class="pure-form">
+    <input type="text" class="pure-input-rounded" placeholder="Search for middlewares" ng-model="searchBox">
+  </form>
+</div>
+
+<p class="pure-right">
+  <span class="pure-badge-custom">{{(middlewares.results | filter:searchBox).length || '0'}} middlewares</span>
+</p>
+
+<div class="pure-alert pure-alert-success" ng-hide="status">
+  <h1>Loadding Projects...</h1>
+</div>
+
+<div class="middlewares">
+  <div class="pure-g-r">
+    <div class="pure-alert pure-alert-custom" ng-repeat="m in middlewares.results | filter:searchBox">
+      <div class="pure-u-1-2 pure-left">
+        <a ng-href="https://npmjs.org/package/{{ m.name }}" target="_blank">{{ m.name }}</a>
+        <span>{{ m.version }}</span>
+        <p>{{ m.description }}</p>
+      </div>
+      <div class="pure-u-1-2 pure-right">
+        repo
+        <a ng-href="{{ formatUrl(m.repository) }} }}" target="_blank">{{ format(m.repository) }}</a>
+        <p>
+          <span class="pure-badge-custom">demiddleware</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-show="showMessage" class="pure-alert pure-alert-error">
+  <h1>Nothing was found</h1>
+</div>
+
+<div ng-show="isEmpty(middlewares.results)" class="pure-alert pure-alert-info">
+  <h1>There are no middlewares for Demi.js</h1>
+  <a href="https://github.com/enytc/demi/tree/master#creating-your-demijs-middlewares" target="_blank">Be the first to create</a>
+</div>

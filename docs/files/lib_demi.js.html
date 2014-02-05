@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1.0</em>
+            <em>API Docs for: 0.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,10 @@
             <ul id="api-classes" class="apis classes">
             
                 <li><a href="../classes/Demi.html">Demi</a></li>
+            
+                <li><a href="../classes/DemiHttp.html">DemiHttp</a></li>
+            
+                <li><a href="../classes/DemiHttps.html">DemiHttps</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
@@ -90,10 +94,10 @@
     <pre class="code prettyprint linenums">
 /*
  * demi
- * https://github.com/chrisenytc/demi
+ * https://github.com/enytc/demi
  *
- * Copyright (c) 2014 Christopher EnyTC
- * Licensed under the MIT license.
+ * Copyright (c) 2014 EnyTC Corporation
+ * Licensed under the BSD license.
  */
 
 &#x27;use strict&#x27;;
@@ -102,212 +106,68 @@
  * Module Dependencies
  */
 
-var mongoose = require(&#x27;mongoose&#x27;);
-var loader = require(&#x27;./loader&#x27;);
-var express = require(&#x27;express&#x27;);
-var debug = require(&#x27;./debugger&#x27;);
-var bella = require(&#x27;bella&#x27;);
-var cors = require(&#x27;cors&#x27;);
-var path = require(&#x27;path&#x27;);
-require(&#x27;express-resource&#x27;);
-
-/**
-@class Demi
- */
-
-/*
- * Private Methods
- */
-
-function loadConfigs(app) {
-  //Load middlewares
-  return loader.configs(app);
-}
-
-function loadMiddlewares(app) {
-  //Load middlewares
-  return loader.middlewares(app);
-}
-
-function loadServices(app) {
-  //Load middlewares
-  return loader.services(app);
-}
-
-function loadModels() {
-  //Load middlewares
-  return loader.models();
-}
-
-function loadControllers(app) {
-  //Load middlewares
-  return loader.controllers(app);
-}
-
-/*
- * Public Methods
- */
+var http = require(&#x27;./demiHttp.js&#x27;);
+var https = require(&#x27;./demiHttps.js&#x27;);
+require(&#x27;colors&#x27;);
 
 /**
  * Constructor
  *
+ * @class Demi
+ * @constructor
+ *
  * @example
  *
- *     var api = demi(5000);
+ *     var api = demi(&#x27;v1&#x27;, {http: {port: 8000, mongooseOptions: {}}, https:{port: 4003, mongooseOptions: {}}});
  *
  * @method Demi
- * @param {String} port The app port
- * @return {Object} Returns a instance of express();
+ * @param {String} version Version of API e.g: v1
+ * @param {Object} options The mongoose connect options
+ * @return {Object} Returns a instance of http() and https();
  */
 
-function Demi(port) {
+function Demi(version, options) {
 
   /*
    * Environment.
    */
 
-  var app = express();
-
-  // all environments
-  app.set(&#x27;port&#x27;, process.env.PORT || 3000);
-  app.use(express.favicon());
-  app.use(express.logger({
-    immediate: true,
-    format: &#x27;dev&#x27;
-  }));
-  app.use(express.compress());
-  app.use(express.responseTime());
-  app.use(express.json());
-  app.use(express.urlencoded());
-  app.use(express.methodOverride());
-
-
-  /*
-   * Middlewares.
-   */
-
-  //Load Custom settings
-  loadConfigs(app);
-  //
-  debug(&#x27;Custom Settings loadded&#x27;, &#x27;success&#x27;);
-
-  if (app.get(&#x27;database&#x27;).enabled) {
-
-    //Define db instance
-    var options = {};
-    //Bootstrap db connection
-    mongoose.connect(app.get(&#x27;database&#x27;).uri, options);
-    //
-    var db = mongoose.connection;
-
-    //Check if authentication is enabled
-    if (app.get(&#x27;auth&#x27;).enabled) {
-      //Authentication provider
-      app.use(bella.init(mongoose, db, [{
-        username: app.get(&#x27;auth&#x27;).user,
-        password: app.get(&#x27;auth&#x27;).pass
-      }]));
-      //Start monitoring
-      app.use(bella.authenticate());
+  //Set options for the API
+  options = options || {
+    http: {
+      port: 20892,
+      mongooseOptions: {}
+    },
+    https: {
+      port: 20892,
+      mongooseOptions: {}
     }
+  };
 
-    //
-    db.on(&#x27;error&#x27;, console.error.bind(console, &#x27;Connection error:&#x27;.red));
-    db.on(&#x27;connected&#x27;, function () {
-      debug(&#x27;MongoDB connected successfully&#x27;, &#x27;success&#x27;);
-    });
-    db.on(&#x27;disconnected&#x27;, function () {
-      debug(&#x27;MongoDB disconnected&#x27;, &#x27;warning&#x27;);
-    });
-  }
+  //Set version of the API
+  version = version || &#x27;&#x27;;
 
-  process.on(&#x27;SIGINT&#x27;, function () {
-    mongoose.connection.close(function () {
-      debug(&#x27;Mongoose default connection disconnected through app termination&#x27;, &#x27;info&#x27;);
-      process.exit(0);
-    });
-  });
+  var demi;
 
-  //Load Custom Middlewares
-  loadMiddlewares(app);
+  //Get settings
+  var env = process.env.NODE_ENV || &#x27;development&#x27;;
+
+  var enableHttps = require(&#x27;../api/config/&#x27; + env + &#x27;/app.json&#x27;).https;
   //
-  debug(&#x27;Middlewares loadded&#x27;, &#x27;success&#x27;);
-
-  /*
-   * Models
-   */
-
-  //Load Models
-  loadModels();
-  //
-  debug(&#x27;Models loadded&#x27;, &#x27;success&#x27;);
-
-  //Cors Options
-  var corsOptions = app.get(&#x27;cors&#x27;);
-  //Cors
-  if (corsOptions.allRoutes) {
-    app.use(cors(corsOptions));
-    debug(&#x27;CORS support enabled&#x27;, &#x27;info&#x27;);
+  if (enableHttps) {
+    demi = new https(version, options.https.port, options.https.mongooseOptions);
+  } else {
+    demi = new http(version, options.http.port, options.http.mongooseOptions);
   }
-
-  // development only
-  if (&#x27;development&#x27; === app.get(&#x27;env&#x27;)) {
-    app.use(express.errorHandler());
-  }
-
-  //Router
-  app.use(app.router);
-
-  app.use(function (err, req, res, next) {
-    console.error(err.stack);
-    var error500 = app.get(&#x27;errors&#x27;)[&#x27;500&#x27;].message.replace(/:method/, req.method).replace(/:path/, req.url);
-    res.json(500, {
-      message: error500,
-      error: err,
-      documentation_url: app.get(&#x27;api&#x27;).documentation_url
-    });
-  });
-
-  app.use(function (req, res) {
-    var error404 = app.get(&#x27;errors&#x27;)[&#x27;404&#x27;].message.replace(/:method/, req.method).replace(/:path/, req.url);
-    res.json(404, {
-      message: error404,
-      documentation_url: app.get(&#x27;api&#x27;).documentation_url
-    });
-  });
-
-  /*
-   * Controllers
-   */
-
-  //Load Routes and Controllers
-  loadControllers(app);
   //
-  debug(&#x27;Controllers loadded&#x27;, &#x27;success&#x27;);
-  //Load Default Controller
-  app.get(&#x27;/&#x27;, require(path.resolve(__dirname, &#x27;..&#x27;, &#x27;api&#x27;, &#x27;controllers&#x27;, app.get(&#x27;app&#x27;).
-    default.controller))[app.get(&#x27;app&#x27;).
-    default.action]);
-
-  /*
-   * Services
-   */
-  loadServices(app);
+  console.log(&#x27;&#x27;);
   //
-  debug(&#x27;Services loadded&#x27;, &#x27;success&#x27;);
-
-  //Define port
-  app.set(&#x27;port&#x27;, port || app.get(&#x27;port&#x27;));
-
-  if(app.get(&#x27;env&#x27;) !== &#x27;test&#x27;) {
-    //Run demi
-    app.listen(app.get(&#x27;port&#x27;));
-    //Log init
-    console.log(&#x27;Demi running on port &#x27;.green + app.get(&#x27;port&#x27;) + &#x27; and using &#x27;.green + app.get(&#x27;env&#x27;).white + &#x27; environment&#x27;.green);
-  }
+  console.log(&#x27;An instance of the API was started on &#x27;.green + &#x27;/&#x27;.white.bold + version.white.bold);
+  //
+  console.log(&#x27;&#x27;);
 
   //Return
-  return app;
+  return demi;
 
 }
 

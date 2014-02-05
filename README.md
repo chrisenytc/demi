@@ -8,18 +8,18 @@
 
 1º Clone demi repo
 
-```shell
+```bash
 git clone https://github.com/enytc/demi.git
 ```
 
 2º Enter in demi directory
-```shell
+```bash
 cd demi
 ```
 
 3º Install dependencies
 
-```shell
+```bash
 npm install
 ```
 
@@ -27,13 +27,13 @@ npm install
 
 5º Run demi
 
-```shell
+```bash
 npm start
 ```
 
 Test your demi app
 
-```shell
+```bash
 npm test
 ```
 
@@ -41,15 +41,19 @@ npm test
 
 Install Demi.js generator
 
-```shell
+```bash
 npm install -g generator-demi
 ```
 
 Run Demi.js
 
-```shell
+```bash
 yo demi
 ```
+
+###### Learn to use the Demi.js generator
+
+[![Demo](https://raw2.github.com/enytc/demi/gh-pages/src/img/howtouse-play.png)](http://ascii.io/a/7475/)
 
 For more informations access this links.
 
@@ -57,6 +61,58 @@ NPM: [npm link](https://npmjs.org/package/generator-demi)
 Repository: [generator-demi](https://github.com/chrisenytc/generator-demi)
 
 ## Documentation
+
+### Overview
+
+Demi.js can work with HTTP or HTTPS. You can simply switch the settings in your enviroment.
+
+Example:
+
+Edit: `api/config/<env>/app.json`
+
+```json
+{
+  "https": true
+}
+```
+
+#### Params to Demi.js constructor
+
+**Parameter**: `version`
+**Type**: `String`
+**Example**: `v1`
+
+**Parameter**: `options`
+**Type**: `Object`
+**Example**:
+```javascript
+{
+ http: {
+  port: 80,
+  mongooseOptions: {}
+  },
+ https: {
+  port: 403,
+  mongooseOptions: {}
+  }
+}
+```
+
+**MongooseOptions** are options that can be passed optionally to connect to database using mongoose.
+
+### Versioning
+
+You can make many versions of your API. Every new instance of the API you can pass a string with the version and it will start this instance.
+
+Example:
+
+```javascript
+var demi = require('./lib/demi.js');
+var api1 = api('v1');
+var api2 = api('v2');
+```
+All requests must be made using the routes /v1 and /v2
+
 
 ### Controllers
 
@@ -70,11 +126,12 @@ The default controller is the model used to define routes based on `controller/a
 
 Conventions:
 
-- The file name and the methods will be used on the route. e.g: tasks.js => `/` or `tasks / tasks / index`
+- The file name and the methods will be used on the route. e.g: tasks.js => `/` or `tasks/tasks/index`
 - The default method always has to be the `index`
-- If you want to override the route use the option: `path:' / newcustomroute / test '`
+- If you want to override the route use the option: `path:'/newcustomroute/test '`
 - Routes can optionally have a `.json` extension or without the extension. e.g: `/tasks/all.json` or `/tasks/all`
 - All models can be found at: `global.models`. e.g: `global.models.Task`
+- All configurations can be found at: `global.configs`. e.g: `global.configs.app`
 
 Example:
 
@@ -92,7 +149,7 @@ module.exports = {
   method: 'GET',
   path: '/newcustomroute',
   fn: function (req, res) {
-   res.json(200, {
+   res.jsonpp(200, {
     message: 'Request received successfully!'
    });
   }
@@ -115,7 +172,7 @@ module.exports = {
    */
 
   index: function (req, res) {
-    res.json(200, {
+    res.jsonpp(200, {
       welcome: 'Welcome to Demi API'
     });
   },
@@ -125,7 +182,7 @@ module.exports = {
    */
 
   new: function (req, res) {
-    res.json(200, {
+    res.jsonp(200, {
       welcome: 'Welcome to Demi API'
     });
   },
@@ -135,7 +192,7 @@ module.exports = {
    */
 
   create: function (req, res) {
-    res.json(200, {
+    res.jsonp(200, {
       welcome: 'Welcome to Demi API'
     });
   },
@@ -145,7 +202,7 @@ module.exports = {
    */
 
   show: function (req, res) {
-    res.json(200, {
+    res.jsonp(200, {
       welcome: 'Welcome to Demi API'
     });
   },
@@ -155,7 +212,7 @@ module.exports = {
    */
 
   edit: function (req, res) {
-    res.json(200, {
+    res.jsonp(200, {
       welcome: 'Welcome to Demi API'
     });
   },
@@ -165,7 +222,7 @@ module.exports = {
    */
 
   update: function (req, res) {
-    res.json(200, {
+    res.jsonp(200, {
       welcome: 'Welcome to Demi API'
     });
   },
@@ -175,7 +232,7 @@ module.exports = {
    */
 
   destroy: function (req, res) {
-    res.json(200, {
+    res.jsonp(200, {
       welcome: 'Welcome to Demi API'
     });
   }
@@ -263,7 +320,7 @@ You can create or use shared middlewares by the community Demi.js on NPM.
 
 2º Install middleware `npm install demi-example --save`
 
-3º Declare and enable in `api/config/<env>/middlewares.json`
+3º Declare and enable in `api/config/<env>/middlewares.jsonp`
 
 Example:
 
@@ -351,7 +408,7 @@ You can access the contents of environments using `app.get('nameofconfigfile')`
 
 Conventions:
 
-- The name of the configuration files in `app /config/<envs>` are the names used to get the contents of the settings in: `app.get ('nameofconfigfile')`
+- The name of the configuration files in `app/config/<envs>` are the names used to get the contents of the settings in: `app.get('nameofconfigfile')`
 
 ##### Custom Environments
 
@@ -363,43 +420,52 @@ How to create custom environments
 
 3º Run your environment
 
-```shell
+```bash
 NODE_ENV=mycustomenv node app
 ```
 
 Example:
 
-```shell
+```bash
 NODE_ENV=production node app
 ```
 
 ## Contributing
 
-Please submit all issues and pull requests to the [enytc/demi](http://github.com/enytc/demi) repository!
+See the [CONTRIBUTING Guidelines](CONTRIBUTING.md)
 
 ## Support
 If you have any problem or suggestion please open an issue [here](https://github.com/enytc/demi/issues).
 
 ## License
-Copyright (c) 2014 Christopher EnyTC
 
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
+The BSD License
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+Copyright (c) 2014, EnyTC Corporation
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice, this
+  list of conditions and the following disclaimer in the documentation and/or
+  other materials provided with the distribution.
+
+* Neither the name of the EnyTC Corporation nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

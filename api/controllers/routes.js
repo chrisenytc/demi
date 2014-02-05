@@ -1,9 +1,9 @@
 /*
  * demi
- * https://github.com/chrisenytc/demi
+ * https://github.com/enytc/demi
  *
- * Copyright (c) 2014 Christopher EnyTC
- * Licensed under the MIT license.
+ * Copyright (c) 2014 EnyTC Corporation
+ * Licensed under the BSD license.
  */
 
 'use strict';
@@ -17,7 +17,7 @@ module.exports = {
  index: {
   method: 'GET',
   fn: function (req, res) {
-   res.json(200, {
+   res.jsonp(200, {
     message: 'Request received successfully!',
     method: req.method
    });
@@ -26,7 +26,7 @@ module.exports = {
  post: {
   method: 'POST',
   fn: function (req, res) {
-   res.json(200, {
+   res.jsonp(200, {
     message: 'Request received successfully!',
     method: req.method
    });
@@ -35,16 +35,16 @@ module.exports = {
  put: {
   method: 'PUT',
   fn: function (req, res) {
-   res.json(200, {
+   res.jsonp(200, {
     message: 'Request received successfully!',
     method: req.method
    });
   }
  },
- del: {
-  method: 'DEL',
+ delete: {
+  method: 'DELETE',
   fn: function (req, res) {
-   res.json(200, {
+   res.jsonp(200, {
     message: 'Request received successfully!',
     method: req.method
    });

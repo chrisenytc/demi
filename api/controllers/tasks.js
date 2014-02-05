@@ -1,9 +1,9 @@
 /*
  * demi
- * https://github.com/chrisenytc/demi
+ * https://github.com/enytc/demi
  *
- * Copyright (c) 2014 Christopher EnyTC
- * Licensed under the MIT license.
+ * Copyright (c) 2014 EnyTC Corporation
+ * Licensed under the BSD license.
  */
 
 'use strict';
@@ -20,11 +20,11 @@ module.exports = {
    */
 
   index: function (req, res, next) {
-    Task.find({}, function (err, tasks) {
+    Task.find({}).exec(function (err, tasks) {
       if (err) {
         next(err);
       }
-      res.json(tasks);
+      res.jsonp(tasks);
     });
   },
   create: function (req, res, next) {
@@ -34,7 +34,7 @@ module.exports = {
         next(err);
       }
       //Send message
-      res.json({
+      res.jsonp({
         message: 'Task created successfully',
         task: req.body
       });
@@ -50,7 +50,7 @@ module.exports = {
         next(err);
       }
       //Send message
-      res.json({
+      res.jsonp({
         message: 'Task ' + req.params.task + ' updated successfully'
       });
     });
@@ -63,7 +63,7 @@ module.exports = {
         next(err);
       }
       //Send message
-      res.json({
+      res.jsonp({
         message: 'Task ' + req.params.task + ' removed successfully'
       });
     });

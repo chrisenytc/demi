@@ -1,16 +1,16 @@
 /*
  * demi
- * https://github.com/chrisenytc/demi
+ * https://github.com/enytc/demi
  *
- * Copyright (c) 2014 Christopher EnyTC
- * Licensed under the MIT license.
+ * Copyright (c) 2014 EnyTC Corporation
+ * Licensed under the BSD license.
  */
 
 'use strict';
 
 var supertest = require('supertest');
-var Demi = require('../lib/demi.js');
-var request = supertest(new Demi());
+var demi = require('../lib/demi.js');
+var request = supertest(demi());
 var chai = require('chai');
 chai.expect();
 chai.should();

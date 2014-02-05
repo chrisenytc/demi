@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Demi - Demi.js API</title>
+    <title>DemiHttp - Demi.js API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -88,7 +88,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Demi Class</h1>
+                        <h1>DemiHttp Class</h1>
 <div class="box meta">
     
 
@@ -96,7 +96,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/lib_demi.js.html#l19"><code>lib&#x2F;demi.js:19</code></a>
+            Defined in: <a href="../files/lib_demiHttp.js.html#l56"><code>lib&#x2F;demiHttp.js:56</code></a>
         </div>
     
 
@@ -115,8 +115,8 @@
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Demi" class="method item">
-    <h3 class="name"><code>Demi</code></h3>
+        <div id="method_DemiHttp" class="method item">
+    <h3 class="name"><code>DemiHttp</code></h3>
 
     
         <div class="args">
@@ -125,6 +125,12 @@
                 <li class="arg">
                     
                         <code>version</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>port</code>
                     
                 </li>
             
@@ -167,7 +173,7 @@
             
         
         
-        <a href="../files/lib_demi.js.html#l19"><code>lib&#x2F;demi.js:19</code></a>
+        <a href="../files/lib_demiHttp.js.html#l56"><code>lib&#x2F;demiHttp.js:56</code></a>
         
         </p>
 
@@ -196,7 +202,23 @@
                     
 
                     <div class="param-description">
-                        <p>Version of API e.g: v1</p>
+                        <p>The version of API</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">port</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The app port</p>
 
                     </div>
 
@@ -232,7 +254,7 @@
                     
                         <span class="type">Object</span>:
                     
-                    <p>Returns a instance of http() and https();</p>
+                    <p>Returns a instance of express();</p>
 
                 
             </div>
@@ -244,7 +266,7 @@
             <h4>Example:</h4>
 
             <div class="example-content">
-                <pre class="code prettyprint"><code>var api = demi(&#39;v1&#39;, {http: {port: 8000, mongooseOptions: {}}, https:{port: 4003, mongooseOptions: {}}});</code></pre>
+                <pre class="code prettyprint"><code>var api = demi(&#39;v1&#39;, 80, {});</code></pre>
 
             </div>
         </div>

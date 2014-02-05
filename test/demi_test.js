@@ -1,21 +1,25 @@
 /*
  * demi
- * https://github.com/chrisenytc/demi
+ * https://github.com/enytc/demi
  *
- * Copyright (c) 2014 Christopher EnyTC
- * Licensed under the MIT license.
+ * Copyright (c) 2014 EnyTC Corporation
+ * Licensed under the BSD license.
  */
 
 'use strict';
 
 var supertest = require('supertest');
-var Demi = require('../lib/demi.js');
-var request = supertest(new Demi());
+var demi = require('../lib/demi.js');
+var request = supertest(demi());
 var chai = require('chai');
+var mongoose = require('mongoose');
 chai.expect();
 chai.should();
 
 describe('demi module', function () {
+  before(function(done) {
+    done();
+  });
   describe('#demi()', function () {
     it('should return a welcome', function (done) {
       request
@@ -23,7 +27,7 @@ describe('demi module', function () {
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, {
-          welcome: 'Welcome to Demi API'
+          welcome: 'Welcome to Demi API',
         }, done);
     });
   });

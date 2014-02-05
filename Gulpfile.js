@@ -1,9 +1,9 @@
 /*
  * demi
- * https://github.com/chrisenytc/demi
+ * https://github.com/enytc/demi
  *
- * Copyright (c) 2014 Christopher EnyTC
- * Licensed under the MIT license.
+ * Copyright (c) 2014 EnyTC Corporation
+ * Licensed under the BSD license.
  */
 
 'use strict';
@@ -37,8 +37,8 @@ gulp.task('watch', function () {
   gulp.watch(['./api/**/*.js', './lib/**/*.js', './test/**/*.js'], ['jshint']);
 });
 
-gulp.task('test', function() {
-  gulp.run('mocha', function() {
+gulp.task('test', function () {
+  gulp.run('mocha', function () {
     process.exit(0);
   });
 });

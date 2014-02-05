@@ -1,16 +1,22 @@
 /*
  * demi
- * https://github.com/chrisenytc/demi
+ * https://github.com/enytc/demi
  *
- * Copyright (c) 2014 Christopher EnyTC
- * Licensed under the MIT license.
+ * Copyright (c) 2014 EnyTC Corporation
+ * Licensed under the BSD license.
  */
 
 'use strict';
 
-/**
-* Module Dependencies
-*/
+/*
+ * Module Dependencies
+ */
 
-var api = require('./lib/demi');
-var app = api(5000);
+/*
+ * Example
+ *
+ * var app = api('v1', {http: {port: 8000, options: {}}, https:{port: 4003, options: {}}});
+ */
+
+var api = require('./lib/demi.js');
+var app = api();

@@ -2,6 +2,7 @@
   "appname": "Demi.js - Production",
   "description": "A wonderful API framework for node.js",
   "powered_by": "Demi.js",
+  "https": false,
   "default": {
     "controller": "index",
     "action": "index"

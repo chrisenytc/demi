@@ -1,9 +1,9 @@
 /*
  * demi
- * https://github.com/chrisenytc/demi
+ * https://github.com/enytc/demi
  *
- * Copyright (c) 2014 Christopher EnyTC
- * Licensed under the MIT license.
+ * Copyright (c) 2014 EnyTC Corporation
+ * Licensed under the BSD license.
  */
 
 'use strict';
@@ -16,7 +16,7 @@ module.exports = {
   enabled: true,
   fn: function () {
     return function (req, res, next) {
-      //console.log('Called');
+      //
       next();
     };
   }

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1.0</em>
+            <em>API Docs for: 0.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,10 @@
             <ul id="api-classes" class="apis classes">
             
                 <li><a href="../classes/Demi.html">Demi</a></li>
+            
+                <li><a href="../classes/DemiHttp.html">DemiHttp</a></li>
+            
+                <li><a href="../classes/DemiHttps.html">DemiHttps</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
@@ -92,7 +96,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/lib_loader.js.html#l23"><code>lib&#x2F;loader.js:23</code></a>
+            Defined in: <a href="../files/lib_loader.js.html#l27"><code>lib&#x2F;loader.js:27</code></a>
         </div>
     
 
@@ -104,289 +108,15 @@
 
 
 <div class="box intro">
-    
+    <p>Method responsible for loadding api files</p>
+
 </div>
 
 
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method">
-                                <a href="#method_configs">configs</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_controllers">controllers</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_load">load</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_middlewares">middlewares</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_models">models</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_services">services</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-                
-                    <div id="method_configs" class="method item">
-    <h3 class="name"><code>configs</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/lib_loader.js.html#l93"><code>lib&#x2F;loader.js:93</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Method responsible for loadding custom settings</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Instance of express();</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-                <pre class="code prettyprint"><code>loader.configs(app);</code></pre>
-
-            </div>
-        </div>
-    
-</div>
-
-                
-                    <div id="method_controllers" class="method item">
-    <h3 class="name"><code>controllers</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/lib_loader.js.html#l206"><code>lib&#x2F;loader.js:206</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Method responsible for loadding controllers</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Instance of express();</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-                <pre class="code prettyprint"><code>loader.controllers(app);</code></pre>
-
-            </div>
-        </div>
-    
-</div>
-
-                
-                    <div id="method_load" class="method item">
-    <h3 class="name"><code>load</code></h3>
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_Loader" class="method item private">
+    <h3 class="name"><code>Loader</code></h3>
 
     
         <div class="args">
@@ -395,6 +125,12 @@
                 <li class="arg">
                     
                         <code>root</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>cb</code>
                     
                 </li>
             
@@ -411,6 +147,8 @@
     
 
     
+        <span class="flag private">private</span>
+    
 
     
 
@@ -431,7 +169,7 @@
             
         
         
-        <a href="../files/lib_loader.js.html#l32"><code>lib&#x2F;loader.js:32</code></a>
+        <a href="../files/lib_loader.js.html#l27"><code>lib&#x2F;loader.js:27</code></a>
         
         </p>
 
@@ -442,8 +180,7 @@
     </div>
 
     <div class="description">
-        <p>Method responsible for loadding api files</p>
-
+        
     </div>
 
     
@@ -462,6 +199,22 @@
 
                     <div class="param-description">
                         <p>Application root directory</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">cb</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback</p>
 
                     </div>
 
@@ -502,9 +255,84 @@
     
 </div>
 
+    </div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method public">
+                                <a href="#method_configs">configs</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_controllers">controllers</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_middlewares">middlewares</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_models">models</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_services">services</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
                 
-                    <div id="method_middlewares" class="method item">
-    <h3 class="name"><code>middlewares</code></h3>
+                    <div id="method_configs" class="method item public">
+    <h3 class="name"><code>configs</code></h3>
 
     
         <div class="args">
@@ -516,6 +344,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code>cb</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -524,6 +358,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -545,7 +381,273 @@
             
         
         
-        <a href="../files/lib_loader.js.html#l116"><code>lib&#x2F;loader.js:116</code></a>
+        <a href="../files/lib_loader.js.html#l92"><code>lib&#x2F;loader.js:92</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Method responsible for loadding custom settings</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Instance of express();</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">cb</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>loader.configs(app, cb);</code></pre>
+
+            </div>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_controllers" class="method item public">
+    <h3 class="name"><code>controllers</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>version</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>cb</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/lib_loader.js.html#l247"><code>lib&#x2F;loader.js:247</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Method responsible for loadding controllers</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">version</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Version of API</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Instance of express();</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">cb</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>loader.controllers(version, app, cb);</code></pre>
+
+            </div>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_middlewares" class="method item public">
+    <h3 class="name"><code>middlewares</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>cb</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/lib_loader.js.html#l125"><code>lib&#x2F;loader.js:125</code></a>
         
         </p>
 
@@ -582,6 +684,22 @@
                     
                 </li>
             
+                <li class="param">
+                    
+                        <code class="param-name">cb</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback</p>
+
+                    </div>
+
+                    
+                </li>
+            
             </ul>
         </div>
     
@@ -593,7 +711,7 @@
             <h4>Example:</h4>
 
             <div class="example-content">
-                <pre class="code prettyprint"><code>loader.middlewares(app);</code></pre>
+                <pre class="code prettyprint"><code>loader.middlewares(app, cb);</code></pre>
 
             </div>
         </div>
@@ -601,12 +719,18 @@
 </div>
 
                 
-                    <div id="method_models" class="method item">
+                    <div id="method_models" class="method item public">
     <h3 class="name"><code>models</code></h3>
 
     
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>cb</code>
+                    
+                </li>
             
                 <li class="arg">
                     
@@ -622,6 +746,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -643,7 +769,7 @@
             
         
         
-        <a href="../files/lib_loader.js.html#l181"><code>lib&#x2F;loader.js:181</code></a>
+        <a href="../files/lib_loader.js.html#l218"><code>lib&#x2F;loader.js:218</code></a>
         
         </p>
 
@@ -663,6 +789,22 @@
             <h4>Parameters:</h4>
 
             <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">cb</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback</p>
+
+                    </div>
+
+                    
+                </li>
             
                 <li class="param">
                     
@@ -699,7 +841,7 @@
 </div>
 
                 
-                    <div id="method_services" class="method item">
+                    <div id="method_services" class="method item public">
     <h3 class="name"><code>services</code></h3>
 
     
@@ -708,7 +850,19 @@
             
                 <li class="arg">
                     
+                        <code>version</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
                         <code>app</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>cb</code>
                     
                 </li>
             
@@ -720,6 +874,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -741,7 +897,7 @@
             
         
         
-        <a href="../files/lib_loader.js.html#l149"><code>lib&#x2F;loader.js:149</code></a>
+        <a href="../files/lib_loader.js.html#l178"><code>lib&#x2F;loader.js:178</code></a>
         
         </p>
 
@@ -764,6 +920,22 @@
             
                 <li class="param">
                     
+                        <code class="param-name">version</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Version of API</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
                         <code class="param-name">app</code>
                         <span class="type">Object</span>
                     
@@ -772,6 +944,22 @@
 
                     <div class="param-description">
                         <p>Instance of express();</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">cb</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback</p>
 
                     </div>
 
@@ -789,7 +977,7 @@
             <h4>Example:</h4>
 
             <div class="example-content">
-                <pre class="code prettyprint"><code>loader.services(app);</code></pre>
+                <pre class="code prettyprint"><code>loader.services(version, app, cb);</code></pre>
 
             </div>
         </div>

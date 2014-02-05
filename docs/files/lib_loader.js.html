@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1.0</em>
+            <em>API Docs for: 0.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,10 @@
             <ul id="api-classes" class="apis classes">
             
                 <li><a href="../classes/Demi.html">Demi</a></li>
+            
+                <li><a href="../classes/DemiHttp.html">DemiHttp</a></li>
+            
+                <li><a href="../classes/DemiHttps.html">DemiHttps</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
@@ -90,10 +94,10 @@
     <pre class="code prettyprint linenums">
 /*
  * demi
- * https://github.com/chrisenytc/demi
+ * https://github.com/enytc/demi
  *
- * Copyright (c) 2014 Christopher EnyTC
- * Licensed under the MIT license.
+ * Copyright (c) 2014 EnyTC Corporation
+ * Licensed under the BSD license.
  */
 
 &#x27;use strict&#x27;;
@@ -110,18 +114,15 @@ var _ = require(&#x27;underscore&#x27;);
 _.str = require(&#x27;underscore.string&#x27;);
 require(&#x27;colors&#x27;);
 
-/**
-@class Loader
- */
-
 /*
  * Private Methods
  */
 
-
 /**
  * Method responsible for loadding api files
  *
+ * @class Loader
+ * @constructor
  * @example
  *
  *     load(__dirname, function(filePath) {
@@ -129,7 +130,9 @@ require(&#x27;colors&#x27;);
  *    });
  *
  * @method load
+ * @private
  * @param {String} root Application root directory
+ * @param {Function} cb Callback
  * @return {Function} Returns callback with filePath
  */
 
@@ -185,21 +188,31 @@ function load(root, cb) {
  *
  * @example
  *
- *     loader.configs(app);
+ *     loader.configs(app, cb);
  *
  * @method configs
+ * @public
  * @param {Object} app Instance of express();
+ * @param {Function} cb Callback
  */
 
-exports.configs = function (app) {
+exports.configs = function (app, cb) {
   //Load Settings
 
+  //Configs NameSpace
+  global.configs = [];
+
   load(&#x27;config&#x27;, function (filePath, fileName) {
-    //
+    //Require configs
     var config = require(filePath);
+    //Set configs in global scope
+    global.configs[fileName] = config;
     //Set Property
     app.set(fileName, config);
   });
+
+  //run callback
+  cb();
 
 };
 
@@ -208,16 +221,30 @@ exports.configs = function (app) {
  *
  * @example
  *
- *     loader.middlewares(app);
+ *     loader.middlewares(app, cb);
  *
  * @method middlewares
+ * @public
  * @param {Object} app Instance of express();
+ * @param {Function} cb Callback
  */
 
-exports.middlewares = function (app) {
+exports.middlewares = function (app, cb) {
   //Load Middlewares
 
   load(&#x27;middlewares&#x27;, function (filePath) {
+    //Middleware powered by
+    var midds = {
+      poweredby: function () {
+        return function (req, res, next) {
+          res.removeHeader(&#x27;X-Powered-By&#x27;);
+          res.setHeader(&#x27;X-Powered-By&#x27;, global.configs.app.powered_by);
+          next();
+        };
+      }
+    };
+    //Set middleware base
+    app.use(midds.poweredby());
     //Require middleware
     var midd = require(filePath);
     //Check if the middleware is enabled
@@ -226,13 +253,19 @@ exports.middlewares = function (app) {
     }
   });
 
+  //Get middlewares settings
   var middlewares = app.get(&#x27;middlewares&#x27;);
-
-  for(var mdd in middlewares) {
-    if(middlewares[mdd].enabled) {
+  //Read and use middlewares
+  for (var mdd in middlewares) {
+    //Check if this middleware is enabled
+    if (middlewares[mdd].enabled) {
+      //use this middleware in app
       app.use(require(middlewares[mdd].name)());
     }
   }
+
+  //run callback
+  cb();
 
 };
 
@@ -241,13 +274,16 @@ exports.middlewares = function (app) {
  *
  * @example
  *
- *     loader.services(app);
+ *     loader.services(version, app, cb);
  *
  * @method services
+ * @public
+ * @param {String} version Version of API
  * @param {Object} app Instance of express();
+ * @param {Function} cb Callback
  */
 
-exports.services = function (app) {
+exports.services = function (version, app, cb) {
   //Load Webservices
 
   load(&#x27;services&#x27;, function (filePath, fileName) {
@@ -255,16 +291,21 @@ exports.services = function (app) {
     if (exists(filePath)) {
       //Require webservice
       var ws = require(filePath);
-      //Send WebService
-      app.get(&#x27;/ws/&#x27; + fileName, function (req, res) {
+      //Provide Service
+      app.get(path.join(&#x27;/&#x27;, version, &#x27;ws&#x27;, fileName), function (req, res) {
+        //Send to client
         res.json(ws);
       });
-
-      app.get(&#x27;/ws/&#x27; + fileName + &#x27;.json&#x27;, function (req, res) {
+      //Provide .json service
+      app.get(path.join(&#x27;/&#x27;, version, &#x27;ws&#x27;, fileName) + &#x27;.json&#x27;, function (req, res) {
+        //Send to client
         res.json(ws);
       });
     }
   });
+
+  //run callback
+  cb();
 
 };
 
@@ -276,20 +317,24 @@ exports.services = function (app) {
  *     loader.models(db);
  *
  * @method models
+ * @public
+ * @param {Function} cb Callback
  * @param {Object} db Mongoose connection
  */
 
-exports.models = function () {
-  //Load Settings
+exports.models = function (cb) {
 
   //Models NameSpace
-
   global.models = [];
 
+  //Load Settings
   load(&#x27;models&#x27;, function (filePath, fileName) {
-    //Require settings
+    //Provide models in global scope global.models
     global.models[_.str.capitalize(fileName)] = require(filePath);
   });
+
+  //run callback
+  cb();
 
 };
 
@@ -298,13 +343,16 @@ exports.models = function () {
  *
  * @example
  *
- *     loader.controllers(app);
+ *     loader.controllers(version, app, cb);
  *
  * @method controllers
+ * @public
+ * @param {String} version Version of API
  * @param {Object} app Instance of express();
+ * @param {Function} cb Callback
  */
 
-exports.controllers = function (app) {
+exports.controllers = function (version, app, cb) {
   //Load controllers
 
   load(&#x27;controllers&#x27;, function (filePath, fileName) {
@@ -316,21 +364,30 @@ exports.controllers = function (app) {
       if (ctrl.method) {
         if (ctrl.path) {
           var route = ctrl.path.replace(/:default/, fileName);
-          app[ctrl.method.toLowerCase()](route, ctrl.fn);
+          //Set controllers using custom routes
+          app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, route), ctrl.fn);
+          app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, route) + &#x27;.json&#x27;, ctrl.fn);
         } else {
           if (methods.index.fn) {
             //Set Default method
-            app.get(join(&#x27;/&#x27;, fileName), methods.index.fn);
+            app.get(path.join(&#x27;/&#x27;, version, fileName), methods.index.fn);
+            app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;.json&#x27;, methods.index.fn);
           }
-          app[ctrl.method.toLowerCase()](join(&#x27;/&#x27;, fileName, key), ctrl.fn);
+          //Load and use default controllers
+          app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName, key), ctrl.fn);
+          app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName, key) + &#x27;.json&#x27;, ctrl.fn);
         }
       } else {
-        app.resource(fileName, methods, {
+        //Load and use restful controllers
+        app.resource(path.join(version, fileName), methods, {
           format: &#x27;json&#x27;
         });
       }
     });
   });
+
+  //run callback
+  cb();
 
 };
 

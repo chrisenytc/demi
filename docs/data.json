@@ -2,7 +2,7 @@
     "project": {
         "name": "Demi.js API",
         "description": "Demi.js API: An wonderful API framework for node.js",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "url": "https://github.com/enytc/demi"
     },
     "files": {
@@ -11,6 +11,24 @@
             "modules": {},
             "classes": {
                 "Demi": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/demiHttp.js": {
+            "name": "lib/demiHttp.js",
+            "modules": {},
+            "classes": {
+                "DemiHttp": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/demiHttps.js": {
+            "name": "lib/demiHttps.js",
+            "modules": {},
+            "classes": {
+                "DemiHttps": 1
             },
             "fors": {},
             "namespaces": {}
@@ -36,7 +54,103 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "lib/demi.js",
-            "line": 24
+            "line": 19,
+            "description": "Constructor",
+            "is_constructor": 1,
+            "example": [
+                "\n\n    var api = demi('v1', {http: {port: 8000, mongooseOptions: {}}, https:{port: 4003, mongooseOptions: {}}});"
+            ],
+            "itemtype": "method",
+            "params": [
+                {
+                    "name": "version",
+                    "description": "Version of API e.g: v1",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "The mongoose connect options",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a instance of http() and https();",
+                "type": "Object"
+            }
+        },
+        "DemiHttp": {
+            "name": "DemiHttp",
+            "shortname": "DemiHttp",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/demiHttp.js",
+            "line": 56,
+            "description": "Constructor",
+            "is_constructor": 1,
+            "example": [
+                "\n\n    var api = demi('v1', 80, {});"
+            ],
+            "params": [
+                {
+                    "name": "version",
+                    "description": "The version of API",
+                    "type": "String"
+                },
+                {
+                    "name": "port",
+                    "description": "The app port",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "The mongoose connect options",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a instance of express();",
+                "type": "Object"
+            }
+        },
+        "DemiHttps": {
+            "name": "DemiHttps",
+            "shortname": "DemiHttps",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/demiHttps.js",
+            "line": 56,
+            "description": "Constructor",
+            "is_constructor": 1,
+            "example": [
+                "\n\n    var api = demi('v1', 403, {});"
+            ],
+            "params": [
+                {
+                    "name": "version",
+                    "description": "The version of API",
+                    "type": "String"
+                },
+                {
+                    "name": "port",
+                    "description": "The app port",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "The mongoose connect options",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a instance of express();",
+                "type": "Object"
+            }
         },
         "Loader": {
             "name": "Loader",
@@ -47,118 +161,131 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "lib/loader.js",
-            "line": 23
-        }
-    },
-    "classitems": [
-        {
-            "file": "lib/demi.js",
-            "line": 61,
-            "description": "Constructor",
-            "example": [
-                "\n\n    var api = demi(5000);"
-            ],
-            "itemtype": "method",
-            "name": "Demi",
-            "params": [
-                {
-                    "name": "port",
-                    "description": "The app port",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "Returns a instance of express();",
-                "type": "Object"
-            },
-            "class": "Demi"
-        },
-        {
-            "file": "lib/loader.js",
-            "line": 32,
+            "line": 27,
             "description": "Method responsible for loadding api files",
+            "is_constructor": 1,
             "example": [
                 "\n\n    load(__dirname, function(filePath) {\n     //\n   });"
             ],
             "itemtype": "method",
-            "name": "load",
+            "access": "private",
+            "tagname": "",
             "params": [
                 {
                     "name": "root",
                     "description": "Application root directory",
                     "type": "String"
+                },
+                {
+                    "name": "cb",
+                    "description": "Callback",
+                    "type": "Function"
                 }
             ],
             "return": {
                 "description": "Returns callback with filePath",
                 "type": "Function"
-            },
-            "class": "Loader"
-        },
+            }
+        }
+    },
+    "classitems": [
         {
             "file": "lib/loader.js",
-            "line": 93,
+            "line": 92,
             "description": "Method responsible for loadding custom settings",
             "example": [
-                "\n\n    loader.configs(app);"
+                "\n\n    loader.configs(app, cb);"
             ],
             "itemtype": "method",
             "name": "configs",
+            "access": "public",
+            "tagname": "",
             "params": [
                 {
                     "name": "app",
                     "description": "Instance of express();",
                     "type": "Object"
+                },
+                {
+                    "name": "cb",
+                    "description": "Callback",
+                    "type": "Function"
                 }
             ],
             "class": "Loader"
         },
         {
             "file": "lib/loader.js",
-            "line": 116,
+            "line": 125,
             "description": "Method responsible for loadding middlewares",
             "example": [
-                "\n\n    loader.middlewares(app);"
+                "\n\n    loader.middlewares(app, cb);"
             ],
             "itemtype": "method",
             "name": "middlewares",
+            "access": "public",
+            "tagname": "",
             "params": [
                 {
                     "name": "app",
                     "description": "Instance of express();",
                     "type": "Object"
+                },
+                {
+                    "name": "cb",
+                    "description": "Callback",
+                    "type": "Function"
                 }
             ],
             "class": "Loader"
         },
         {
             "file": "lib/loader.js",
-            "line": 149,
+            "line": 178,
             "description": "Method responsible for loadding services",
             "example": [
-                "\n\n    loader.services(app);"
+                "\n\n    loader.services(version, app, cb);"
             ],
             "itemtype": "method",
             "name": "services",
+            "access": "public",
+            "tagname": "",
             "params": [
+                {
+                    "name": "version",
+                    "description": "Version of API",
+                    "type": "String"
+                },
                 {
                     "name": "app",
                     "description": "Instance of express();",
                     "type": "Object"
+                },
+                {
+                    "name": "cb",
+                    "description": "Callback",
+                    "type": "Function"
                 }
             ],
             "class": "Loader"
         },
         {
             "file": "lib/loader.js",
-            "line": 181,
+            "line": 218,
             "description": "Method responsible for loadding models",
             "example": [
                 "\n\n    loader.models(db);"
             ],
             "itemtype": "method",
             "name": "models",
+            "access": "public",
+            "tagname": "",
             "params": [
+                {
+                    "name": "cb",
+                    "description": "Callback",
+                    "type": "Function"
+                },
                 {
                     "name": "db",
                     "description": "Mongoose connection",
@@ -169,18 +296,30 @@
         },
         {
             "file": "lib/loader.js",
-            "line": 206,
+            "line": 247,
             "description": "Method responsible for loadding controllers",
             "example": [
-                "\n\n    loader.controllers(app);"
+                "\n\n    loader.controllers(version, app, cb);"
             ],
             "itemtype": "method",
             "name": "controllers",
+            "access": "public",
+            "tagname": "",
             "params": [
+                {
+                    "name": "version",
+                    "description": "Version of API",
+                    "type": "String"
+                },
                 {
                     "name": "app",
                     "description": "Instance of express();",
                     "type": "Object"
+                },
+                {
+                    "name": "cb",
+                    "description": "Callback",
+                    "type": "Function"
                 }
             ],
             "class": "Loader"

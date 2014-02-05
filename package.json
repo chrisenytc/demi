@@ -1,8 +1,9 @@
 {
   "name": "demi",
   "description": "An wonderful API framework for node.js",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "homepage": "https://github.com/enytc/demi",
+  "private": true,
   "author": {
     "name": "Christopher EnyTC",
     "email": "chrisenytc@gmail.com"
@@ -16,7 +17,7 @@
   },
   "licenses": [
     {
-      "type": "MIT",
+      "type": "BSD",
       "url": "https://github.com/enytc/demi/blob/master/LICENSE"
     }
   ],
@@ -26,11 +27,13 @@
   },
   "scripts": {
     "start": "NODE_ENV=production ./node_modules/forever/bin/forever -m 5 app.js",
+    "startcluster": "NODE_ENV=production ./node_modules/forever/bin/forever -m 5 cluster.js",
     "test": "NODE_ENV=test gulp test"
   },
   "dependencies": {
     "express": "~3.4.7",
     "express-resource": "~1.0.0",
+    "demi-logger": "~0.1.0",
     "bella": "~0.3.0",
     "underscore": "~1.5.2",
     "underscore.string": "~2.3.3",

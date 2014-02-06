@@ -23,7 +23,7 @@ $(document).ready(function () {
 
  $('a.fancybox').fancybox({
    type: "iframe",
-   width: 730,
+   width: 626,
    height: 420
  });
 

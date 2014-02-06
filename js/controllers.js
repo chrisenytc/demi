@@ -6,7 +6,7 @@ app.controller('middlewareCtrl', function ($scope, $http) {
 
  function format(name) {
   if (angular.isString(name)) {
-   return name.replace('http://github.com/', '').replace('https://github.com/', '').replace('git://github.com/', '').replace('ssh://git@github.com:', '').replace('git@github.com:', '').replace('.git', '').replace(' ', '');
+   return name.replace('http://github.com/', '').replace('https://github.com/', '').replace('git://github.com/', '').replace('ssh://git@github.com:', '').replace('git@github.com:', '').replace('.git', '').trim();
   } else {
    return false;
   }

@@ -53,7 +53,7 @@ yo demi
 
 ###### Learn to use the Demi.js generator
 
-[![Demo](https://raw2.github.com/enytc/demi/gh-pages/src/img/howtouse-play.png)](http://ascii.io/a/7475/)
+[![Demo](https://raw2.github.com/enytc/demi/gh-pages/src/img/howtouse-play.png)](http://ascii.io/a/7507/)
 
 For more informations access this links.
 

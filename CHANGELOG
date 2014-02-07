@@ -1,3 +1,7 @@
+v0.2.1:
+  date: 2014-02-06
+  changes:
+    - Fixed error in presentation video on README.md
 v0.2.0:
   date: 2014-02-03
   changes:

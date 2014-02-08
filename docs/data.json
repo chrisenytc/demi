@@ -2,7 +2,7 @@
     "project": {
         "name": "Demi.js API",
         "description": "Demi.js API: An wonderful API framework for node.js",
-        "version": "0.2.1",
+        "version": "0.3.0",
         "url": "https://github.com/enytc/demi"
     },
     "files": {
@@ -124,7 +124,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "lib/demiHttps.js",
-            "line": 56,
+            "line": 57,
             "description": "Constructor",
             "is_constructor": 1,
             "example": [

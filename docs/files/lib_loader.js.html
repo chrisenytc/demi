@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.3.0</em>
+            <em>API Docs for: 0.3.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -361,17 +361,17 @@ exports.controllers = function (version, app, cb) {
     //Load All Methods
     _.each(methods, function (ctrl, key) {
       //Check method
-      if (ctrl.method) {
-        if (ctrl.path) {
+      if (ctrl.hasOwnProperty(&#x27;method&#x27;)) {
+        if (ctrl.hasOwnProperty(&#x27;path&#x27;)) {
           var route = ctrl.path.replace(/:default/, fileName);
           //Set controllers using custom routes
           app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, route), ctrl.fn);
           app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, route) + &#x27;.json&#x27;, ctrl.fn);
         } else {
-          if (methods.index.fn) {
+          if (methods.hasOwnProperty(&#x27;index&#x27;) &amp;&amp; methods.index.hasOwnProperty(&#x27;fn&#x27;)) {
             //Set Default method
-            app.get(path.join(&#x27;/&#x27;, version, fileName), methods.index.fn);
-            app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;.json&#x27;, methods.index.fn);
+            app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName), methods.index.fn);
+            app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName) + &#x27;.json&#x27;, methods.index.fn);
           }
           //Load and use default controllers
           app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName, key), ctrl.fn);

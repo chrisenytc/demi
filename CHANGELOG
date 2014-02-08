@@ -1,3 +1,7 @@
+v0.3.1:
+  date: 2014-02-08
+  changes:
+    - Add support for multiple http methods in default route
 v0.3.0:
   date: 2014-02-08
   changes:

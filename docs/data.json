@@ -2,7 +2,7 @@
     "project": {
         "name": "Demi.js API",
         "description": "Demi.js API: An wonderful API framework for node.js",
-        "version": "0.3.1",
+        "version": "0.3.2",
         "url": "https://github.com/enytc/demi"
     },
     "files": {
@@ -58,7 +58,7 @@
             "description": "Constructor",
             "is_constructor": 1,
             "example": [
-                "\n\n    var api = demi('v1', {http: {port: 8000, mongooseOptions: {}}, https:{port: 4003, mongooseOptions: {}}});"
+                "\n\n    var api = demi('v1', {http: {port: 8000, options: {}}, https:{port: 4003, options: {}}});"
             ],
             "itemtype": "method",
             "params": [
@@ -87,7 +87,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "lib/demiHttp.js",
-            "line": 56,
+            "line": 60,
             "description": "Constructor",
             "is_constructor": 1,
             "example": [
@@ -124,7 +124,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "lib/demiHttps.js",
-            "line": 57,
+            "line": 62,
             "description": "Constructor",
             "is_constructor": 1,
             "example": [
@@ -241,7 +241,7 @@
         },
         {
             "file": "lib/loader.js",
-            "line": 178,
+            "line": 166,
             "description": "Method responsible for loadding services",
             "example": [
                 "\n\n    loader.services(version, app, cb);"
@@ -271,7 +271,7 @@
         },
         {
             "file": "lib/loader.js",
-            "line": 218,
+            "line": 206,
             "description": "Method responsible for loadding models",
             "example": [
                 "\n\n    loader.models(db);"
@@ -296,7 +296,7 @@
         },
         {
             "file": "lib/loader.js",
-            "line": 247,
+            "line": 235,
             "description": "Method responsible for loadding controllers",
             "example": [
                 "\n\n    loader.controllers(version, app, cb);"
@@ -314,6 +314,31 @@
                 {
                     "name": "app",
                     "description": "Instance of express();",
+                    "type": "Object"
+                },
+                {
+                    "name": "cb",
+                    "description": "Callback",
+                    "type": "Function"
+                }
+            ],
+            "class": "Loader"
+        },
+        {
+            "file": "lib/loader.js",
+            "line": 299,
+            "description": "Method responsible for loadding sockets",
+            "example": [
+                "\n\n    loader.sockets(server, cb);"
+            ],
+            "itemtype": "method",
+            "name": "sockets",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "server",
+                    "description": "Instance of express server",
                     "type": "Object"
                 },
                 {

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.3.1</em>
+            <em>API Docs for: 0.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -114,7 +114,6 @@ var debug = require(&#x27;./debugger&#x27;);
 var logger = require(&#x27;demi-logger&#x27;);
 var bella = require(&#x27;bella&#x27;);
 var cors = require(&#x27;cors&#x27;);
-var path = require(&#x27;path&#x27;);
 require(&#x27;express-resource&#x27;);
 require(&#x27;colors&#x27;);
 
@@ -123,7 +122,7 @@ require(&#x27;colors&#x27;);
  */
 
 function loadConfigs(app, cb) {
-  //Load middlewares
+  //Load configs
   return loader.configs(app, cb);
 }
 
@@ -133,18 +132,23 @@ function loadMiddlewares(app, cb) {
 }
 
 function loadServices(version, app, cb) {
-  //Load middlewares
+  //Load services
   return loader.services(version, app, cb);
 }
 
 function loadModels(cb) {
-  //Load middlewares
+  //Load models
   return loader.models(cb);
 }
 
 function loadControllers(version, app, cb) {
-  //Load middlewares
+  //Load controllers
   return loader.controllers(version, app, cb);
+}
+
+function loadSockets(server, cb) {
+  //Load sockets
+  return loader.sockets(server, cb);
 }
 
 /**
@@ -172,27 +176,72 @@ function Demi(version, port, options) {
   var app = express();
 
   /*
-   * Middlewares.
+   * Configs
    */
 
   //Load Custom settings
-  loadConfigs(app, function () {
+  loadConfigs(app, function() {
     debug(&#x27;Custom settings loadded&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
   });
-  //
+
+  //Port
+  app.set(&#x27;port&#x27;, process.env.PORT || 20892);
+
+  //Jsonp support
+  app.enable(&#x27;jsonp callback&#x27;);
+
+  //Database manager
+  if (app.get(&#x27;database&#x27;).enabled) {
+
+    //Define db instance
+    options = options || {};
+    //Db
+    var db;
+    //Bootstrap db connection
+    if (mongoose.connection.readyState) {
+      //
+      db = mongoose.connection;
+    } else {
+      mongoose.connect(app.get(&#x27;database&#x27;).uri, options);
+      db = mongoose.connection;
+    }
+
+    //
+    if (app.get(&#x27;env&#x27;) !== &#x27;test&#x27;) {
+      db.on(&#x27;error&#x27;, console.error.bind(console, &#x27;Connection error:&#x27;.red));
+    }
+    db.on(&#x27;connected&#x27;, function() {
+      debug(&#x27;MongoDB connected successfully&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
+    });
+    db.on(&#x27;disconnected&#x27;, function() {
+      debug(&#x27;MongoDB disconnected&#x27;, &#x27;warning&#x27;, &#x27;http&#x27;);
+    });
+
+  }
 
   //All environments
-  app.configure(function () {
-    app.set(&#x27;port&#x27;, process.env.PORT || 20892);
-    app.use(express.favicon());
-    if (app.get(&#x27;env&#x27;) !== &#x27;test&#x27;) {
-      app.use(express.logger(logger));
-    }
-    app.use(express.responseTime());
-    app.use(express.json());
+  app.configure(function() {
+
     app.use(express.urlencoded());
-    app.use(express.compress());
+    app.use(express.json());
     app.use(express.methodOverride());
+    app.use(express.responseTime());
+    app.use(function(req, res, next) {
+      res.removeHeader(&#x27;X-Powered-By&#x27;);
+      res.setHeader(&#x27;X-Powered-By&#x27;, app.get(&#x27;app&#x27;).powered_by);
+      next();
+    });
+
+    //Check if authentication is enabled
+    if (app.get(&#x27;auth&#x27;).enabled) {
+      //Authentication provider
+      app.use(bella.init(mongoose, db, [{
+        username: app.get(&#x27;auth&#x27;).user,
+        password: app.get(&#x27;auth&#x27;).pass
+      }]));
+      //Start monitoring
+      app.use(bella.authenticate());
+    }
 
     //Cors Options
     var corsOptions = app.get(&#x27;cors&#x27;);
@@ -202,85 +251,45 @@ function Demi(version, port, options) {
       debug(&#x27;CORS support enabled&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
     }
 
-    //errorHanddler
-
-    // development only
-    if (&#x27;development&#x27; === app.get(&#x27;env&#x27;)) {
-      app.use(express.errorHandler());
-    }
-
-    //Database manager
-    if (app.get(&#x27;database&#x27;).enabled) {
-
-      //Define db instance
-      options = options || {};
-      //Db
-      var db;
-      //Bootstrap db connection
-      if (mongoose.connection.readyState) {
-        //
-        db = mongoose.connection;
-      } else {
-        mongoose.connect(app.get(&#x27;database&#x27;).uri, options);
-        db = mongoose.connection;
-      }
-
-      //Check if authentication is enabled
-      if (app.get(&#x27;auth&#x27;).enabled) {
-        //Authentication provider
-        app.use(bella.init(mongoose, db, [{
-          username: app.get(&#x27;auth&#x27;).user,
-          password: app.get(&#x27;auth&#x27;).pass
-      }]));
-        //Start monitoring
-        app.use(bella.authenticate());
-      }
-
-      //
-      if (app.get(&#x27;env&#x27;) !== &#x27;test&#x27;) {
-        db.on(&#x27;error&#x27;, console.error.bind(console, &#x27;Connection error:&#x27;.red));
-      }
-      db.on(&#x27;connected&#x27;, function () {
-        debug(&#x27;MongoDB connected successfully&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
-      });
-      db.on(&#x27;disconnected&#x27;, function () {
-        debug(&#x27;MongoDB disconnected&#x27;, &#x27;warning&#x27;, &#x27;http&#x27;);
-      });
-
+    //Logger
+    if (app.get(&#x27;env&#x27;) !== &#x27;test&#x27;) {
+      app.use(express.logger(logger));
     }
 
     //Router
     app.use(app.router);
-    //Error 500 Handler
-    app.use(function (err, req, res, next) {
-      console.error(err.stack);
-      var error500 = app.get(&#x27;errors&#x27;)[&#x27;500&#x27;].message.replace(/:method/, req.method).replace(/:path/, req.url);
-      res.jsonp(500, {
-        message: error500,
-        error: err,
-        documentation_url: app.get(&#x27;api&#x27;).documentation_url
-      });
-    });
-    //Error 404 Handler
-    app.use(function (req, res) {
-      var error404 = app.get(&#x27;errors&#x27;)[&#x27;404&#x27;].message.replace(/:method/, req.method).replace(/:path/, req.url);
-      res.jsonp(404, {
-        message: error404,
-        documentation_url: app.get(&#x27;api&#x27;).documentation_url
-      });
-    });
 
   });
 
-  process.on(&#x27;SIGINT&#x27;, function () {
-    mongoose.connection.close(function () {
+  //Error 500 Handler
+  app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    var error500 = app.get(&#x27;errors&#x27;)[&#x27;500&#x27;].message.replace(/:method/, req.method).replace(/:path/, req.url);
+    res.jsonp(500, {
+      message: error500,
+      error: err,
+      documentation_url: app.get(&#x27;api&#x27;).documentation_url
+    });
+  });
+
+  //Error 404 Handler
+  app.use(function(req, res) {
+    var error404 = app.get(&#x27;errors&#x27;)[&#x27;404&#x27;].message.replace(/:method/, req.method).replace(/:path/, req.url);
+    res.jsonp(404, {
+      message: error404,
+      documentation_url: app.get(&#x27;api&#x27;).documentation_url
+    });
+  });
+
+  process.on(&#x27;SIGINT&#x27;, function() {
+    mongoose.connection.close(function() {
       debug(&#x27;Mongoose disconnected through app termination&#x27;, &#x27;error&#x27;, &#x27;http&#x27;);
       process.exit(0);
     });
   });
 
   //Load Custom Middlewares
-  loadMiddlewares(app, function () {
+  loadMiddlewares(app, function() {
     debug(&#x27;Middlewares loadded&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
   });
 
@@ -289,7 +298,7 @@ function Demi(version, port, options) {
    */
 
   //Load Models
-  loadModels(function () {
+  loadModels(function() {
     debug(&#x27;Models loadded&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
   });
 
@@ -298,32 +307,37 @@ function Demi(version, port, options) {
    */
 
   //Load Routes and Controllers
-  loadControllers(version, app, function () {
+  loadControllers(version, app, function() {
     debug(&#x27;Controllers loadded&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
   });
-
-  //Load Default Controller
-  app.get(&#x27;/&#x27; + version, require(path.resolve(__dirname, &#x27;..&#x27;, &#x27;api&#x27;, &#x27;controllers&#x27;, app.get(&#x27;app&#x27;).
-    default.controller))[app.get(&#x27;app&#x27;).
-    default.action]);
 
   /*
    * Services
    */
-  loadServices(version, app, function () {
+  loadServices(version, app, function() {
     debug(&#x27;Services loadded&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
   });
 
   //Define port
   app.set(&#x27;port&#x27;, port || app.get(&#x27;port&#x27;));
 
+  //Server
+  var server;
+
   if (app.get(&#x27;env&#x27;) !== &#x27;test&#x27;) {
-    //
-    http.createServer(app).listen(app.get(&#x27;port&#x27;), function () {
+    //Init Server
+    server = http.createServer(app).listen(app.get(&#x27;port&#x27;), function() {
       //Log init
       console.log(&#x27;[ &#x27; + &#x27;HTTP&#x27;.bold + &#x27; ] &#x27; + &#x27;API &#x27;.green.bold + version + &#x27; running on port &#x27;.green + &#x27; [ &#x27; + String(app.get(&#x27;port&#x27;)).bold + &#x27; ] &#x27; + &#x27; and using &#x27;.green + &#x27; [ &#x27; + app.get(&#x27;env&#x27;).white.bold + &#x27; ] &#x27; + &#x27; environment&#x27;.green);
       console.log(&#x27;&#x27;);
 
+    });
+  }
+
+  //Load Routes and Controllers
+  if (app.get(&#x27;app&#x27;).socket) {
+    loadSockets(server, function() {
+      debug(&#x27;Sockets loadded&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
     });
   }
 
@@ -334,7 +348,6 @@ function Demi(version, port, options) {
 
 //Exports
 module.exports = Demi;
-
     </pre>
 </div>
 

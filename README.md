@@ -66,6 +66,14 @@ Repository: [generator-demi](https://github.com/chrisenytc/generator-demi)
 
 Demi.js can work with HTTP or HTTPS. You can simply switch the settings in your enviroment.
 
+**INFO** To use htps you need to generate or have a key and a certificate. e.g: `cert.pem` and `key.pem`
+
+You can rename the files in `api/config/<env>/ssl.json`.
+
+[How to generate a ssl cert](http://greengeckodesign.com/blog/2013/06/15/creating-an-ssl-certificate-for-node-dot-js/)
+
+[How to generate a ssl cert with pem](http://docs.nodejitsu.com/articles/HTTP/servers/how-to-create-a-HTTPS-server)
+
 Example:
 
 Edit: `api/config/<env>/app.json`
@@ -89,16 +97,16 @@ Edit: `api/config/<env>/app.json`
 {
  http: {
   port: 80,
-  mongooseOptions: {}
+  options: {}
   },
  https: {
   port: 403,
-  mongooseOptions: {}
+  options: {}
   }
 }
 ```
 
-**MongooseOptions** are options that can be passed optionally to connect to database using mongoose.
+**options** are options that can be passed optionally to connect to database using mongoose.
 
 ### Versioning
 
@@ -395,6 +403,43 @@ Example:
   }
 ]
 ```
+
+## Sockets
+
+How to use Sockets
+
+The Demi.js uses socket.io, you need to follow some conventions to able to use it.
+
+1. The file name and the method name will be used as socket path. e.g: `test.js` + `index` = `test/index`
+2. You can listen or emit a message using that path. e.g: `on: function(data){}` or `emit: 'message-example'`
+3. `this` variable has the scope of socket.io and can use all of its methods. e.g: `this.on('test/index', function(data){});`, `this.emit('test/index', 'message-example')` and more.
+
+Example:
+
+`api/sockets/test.js`
+
+```javascript
+module.exports = {
+
+  /*
+   * SOCKET test
+   */
+
+  index: {
+    on: function(data) {
+      //show received data
+      console.log(data);
+      //emit new data
+      this.emit('test/another/event', data);
+    },
+    emit: 'test this'
+  }
+};
+```
+
+For more information see the documentation of socket.io:
+
+[How to use Socket.io](http://socket.io/#how-to-use)
 
 ## Settings
 

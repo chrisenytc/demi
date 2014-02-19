@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.3.1</em>
+            <em>API Docs for: 0.3.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -118,7 +118,7 @@ require(&#x27;colors&#x27;);
  *
  * @example
  *
- *     var api = demi(&#x27;v1&#x27;, {http: {port: 8000, mongooseOptions: {}}, https:{port: 4003, mongooseOptions: {}}});
+ *     var api = demi(&#x27;v1&#x27;, {http: {port: 8000, options: {}}, https:{port: 4003, options: {}}});
  *
  * @method Demi
  * @param {String} version Version of API e.g: v1
@@ -162,7 +162,7 @@ function Demi(version, options) {
   //
   console.log(&#x27;&#x27;);
   //
-  console.log(&#x27;[ &#x27;+ String(demi.get(&#x27;port&#x27;)).bold +&#x27; ]&#x27;+&#x27; An instance of the API was started on &#x27;.green + &#x27;/&#x27;.white.bold + version.white.bold);
+  console.log(&#x27;[ &#x27; + String(demi.get(&#x27;port&#x27;)).bold + &#x27; ]&#x27; + &#x27; An instance of the API was started on &#x27;.green + &#x27;/&#x27;.white.bold + version.white.bold);
   //
   console.log(&#x27;&#x27;);
 
@@ -173,7 +173,6 @@ function Demi(version, options) {
 
 //Exports
 module.exports = Demi;
-
     </pre>
 </div>
 

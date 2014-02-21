@@ -2,7 +2,7 @@
     "project": {
         "name": "Demi.js API",
         "description": "Demi.js API: An wonderful API framework for node.js",
-        "version": "0.3.2",
+        "version": "0.3.3",
         "url": "https://github.com/enytc/demi"
     },
     "files": {

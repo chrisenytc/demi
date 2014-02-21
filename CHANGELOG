@@ -1,3 +1,7 @@
+v0.3.3:
+  date: 2014-02-21
+  changes:
+    - Optimize the core and add support for new bella version
 v0.3.2:
   date: 2014-02-19
   changes:

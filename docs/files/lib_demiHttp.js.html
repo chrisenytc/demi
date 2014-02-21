@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.3.2</em>
+            <em>API Docs for: 0.3.3</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -190,46 +190,56 @@ function Demi(version, port, options) {
   //Jsonp support
   app.enable(&#x27;jsonp callback&#x27;);
 
-  //Database manager
-  if (app.get(&#x27;database&#x27;).enabled) {
-
-    //Define db instance
-    options = options || {};
-    //Db
-    var db;
-    //Bootstrap db connection
-    if (mongoose.connection.readyState) {
-      //
-      db = mongoose.connection;
-    } else {
-      mongoose.connect(app.get(&#x27;database&#x27;).uri, options);
-      db = mongoose.connection;
-    }
-
-    //
-    if (app.get(&#x27;env&#x27;) !== &#x27;test&#x27;) {
-      db.on(&#x27;error&#x27;, console.error.bind(console, &#x27;Connection error:&#x27;.red));
-    }
-    db.on(&#x27;connected&#x27;, function() {
-      debug(&#x27;MongoDB connected successfully&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
-    });
-    db.on(&#x27;disconnected&#x27;, function() {
-      debug(&#x27;MongoDB disconnected&#x27;, &#x27;warning&#x27;, &#x27;http&#x27;);
-    });
-
-  }
-
   //All environments
   app.configure(function() {
+
+    //Db
+    var db;
+    //Database manager
+    if (app.get(&#x27;database&#x27;).enabled) {
+
+      //Define db instance
+      options = options || {};
+      //Bootstrap db connection
+      if (mongoose.connection.readyState) {
+        //
+        db = mongoose.connection;
+      } else {
+        mongoose.connect(app.get(&#x27;database&#x27;).uri, options);
+        db = mongoose.connection;
+      }
+
+      //
+      if (app.get(&#x27;env&#x27;) !== &#x27;test&#x27;) {
+        db.on(&#x27;error&#x27;, console.error.bind(console, &#x27;Connection error:&#x27;.red));
+      }
+      db.on(&#x27;connected&#x27;, function() {
+        debug(&#x27;MongoDB connected successfully&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
+      });
+      db.on(&#x27;disconnected&#x27;, function() {
+        debug(&#x27;MongoDB disconnected&#x27;, &#x27;warning&#x27;, &#x27;http&#x27;);
+      });
+      process.on(&#x27;SIGINT&#x27;, function() {
+        mongoose.connection.close(function() {
+          debug(&#x27;Mongoose disconnected through app termination&#x27;, &#x27;error&#x27;, &#x27;http&#x27;);
+          process.exit(0);
+        });
+      });
+
+    }
 
     app.use(express.urlencoded());
     app.use(express.json());
     app.use(express.methodOverride());
-    app.use(express.responseTime());
+    //Powered by
     app.use(function(req, res, next) {
       res.removeHeader(&#x27;X-Powered-By&#x27;);
       res.setHeader(&#x27;X-Powered-By&#x27;, app.get(&#x27;app&#x27;).powered_by);
       next();
+    });
+    //Load Custom Middlewares
+    loadMiddlewares(app, function() {
+      debug(&#x27;Middlewares loadded&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
     });
 
     //Check if authentication is enabled
@@ -256,6 +266,8 @@ function Demi(version, port, options) {
       app.use(express.logger(logger));
     }
 
+    //ResponseTime
+    app.use(express.responseTime());
     //Router
     app.use(app.router);
 
@@ -279,18 +291,6 @@ function Demi(version, port, options) {
       message: error404,
       documentation_url: app.get(&#x27;api&#x27;).documentation_url
     });
-  });
-
-  process.on(&#x27;SIGINT&#x27;, function() {
-    mongoose.connection.close(function() {
-      debug(&#x27;Mongoose disconnected through app termination&#x27;, &#x27;error&#x27;, &#x27;http&#x27;);
-      process.exit(0);
-    });
-  });
-
-  //Load Custom Middlewares
-  loadMiddlewares(app, function() {
-    debug(&#x27;Middlewares loadded&#x27;, &#x27;success&#x27;, &#x27;http&#x27;);
   });
 
   /*

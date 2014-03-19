@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.3.3</em>
+            <em>API Docs for: 0.4.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -128,51 +128,52 @@ require(&#x27;colors&#x27;);
 
 function Demi(version, options) {
 
-  /*
-   * Environment.
-   */
+    /*
+     * Environment.
+     */
 
-  //Set options for the API
-  options = options || {
-    http: {
-      port: 20892,
-      mongooseOptions: {}
-    },
-    https: {
-      port: 20892,
-      mongooseOptions: {}
+    //Set options for the API
+    options = options || {
+        http: {
+            port: 20892,
+            mongooseOptions: {}
+        },
+        https: {
+            port: 20892,
+            mongooseOptions: {}
+        }
+    };
+
+    //Set version of the API
+    version = version || &#x27;&#x27;;
+
+    var demi;
+
+    //Get settings
+    var env = process.env.NODE_ENV || &#x27;development&#x27;;
+
+    var enableHttps = require(&#x27;../api/config/&#x27; + env + &#x27;/app.json&#x27;).https;
+    //
+    if (enableHttps) {
+        demi = new https(version, options.https.port, options.https.mongooseOptions);
+    } else {
+        demi = new http(version, options.http.port, options.http.mongooseOptions);
     }
-  };
+    //
+    console.log(&#x27;&#x27;);
+    //
+    console.log(&#x27;[ &#x27; + String(demi.get(&#x27;port&#x27;)).bold + &#x27; ]&#x27; + &#x27; An instance of the API was started on &#x27;.green + &#x27;/&#x27;.white.bold + version.white.bold);
+    //
+    console.log(&#x27;&#x27;);
 
-  //Set version of the API
-  version = version || &#x27;&#x27;;
-
-  var demi;
-
-  //Get settings
-  var env = process.env.NODE_ENV || &#x27;development&#x27;;
-
-  var enableHttps = require(&#x27;../api/config/&#x27; + env + &#x27;/app.json&#x27;).https;
-  //
-  if (enableHttps) {
-    demi = new https(version, options.https.port, options.https.mongooseOptions);
-  } else {
-    demi = new http(version, options.http.port, options.http.mongooseOptions);
-  }
-  //
-  console.log(&#x27;&#x27;);
-  //
-  console.log(&#x27;[ &#x27; + String(demi.get(&#x27;port&#x27;)).bold + &#x27; ]&#x27; + &#x27; An instance of the API was started on &#x27;.green + &#x27;/&#x27;.white.bold + version.white.bold);
-  //
-  console.log(&#x27;&#x27;);
-
-  //Return
-  return demi;
+    //Return
+    return demi;
 
 }
 
 //Exports
 module.exports = Demi;
+
     </pre>
 </div>
 

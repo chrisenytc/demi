@@ -10,15 +10,15 @@
 
 module.exports = {
 
-	/*
-	 * SOCKET test
-	 */
+    /*
+     * SOCKET test
+     */
 
-	index: {
-		on: function(data) {
-			console.log(data);
-			this.emit('test/index', data);
-		},
-		emit: 'test this'
-	}
+    index: {
+        on: function (data) {
+            console.log(data);
+            this.emit('test/index', data);
+        },
+        emit: 'test this'
+    }
 };

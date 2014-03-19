@@ -1,4 +1,4 @@
 {
-	"uri": "mongodb://localhost/demidb",
-	"enabled": false
+    "uri": "mongodb://localhost/demidb",
+    "enabled": true
 }

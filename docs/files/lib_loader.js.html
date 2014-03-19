@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.3.3</em>
+            <em>API Docs for: 0.4.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -137,46 +137,46 @@ require(&#x27;colors&#x27;);
  */
 
 function load(root, cb) {
-  var fullPath = join(__dirname, &#x27;..&#x27;, &#x27;api&#x27;, root);
-  var ENV = process.env.NODE_ENV || &#x27;development&#x27;;
-  //
-  if (root === &#x27;config&#x27;) {
-    var configPath = join(fullPath, ENV);
-    //Read this directory
-    if (exists(configPath)) {
-      readdir(configPath).forEach(function(file) {
-        if (fs.statSync(join(configPath, file)).isFile()) {
-          //Resolve file path
-          var filePath = join(configPath, file);
-          //Check if this file exists
-          if (exists(filePath)) {
-            //Run callback
-            var fileName = file.replace(/\.js$/, &#x27;&#x27;);
-            fileName = fileName.replace(/\.json$/, &#x27;&#x27;);
-            cb(filePath, fileName);
-          }
+    var fullPath = join(__dirname, &#x27;..&#x27;, &#x27;api&#x27;, root);
+    var ENV = process.env.NODE_ENV || &#x27;development&#x27;;
+    //
+    if (root === &#x27;config&#x27;) {
+        var configPath = join(fullPath, ENV);
+        //Read this directory
+        if (exists(configPath)) {
+            readdir(configPath).forEach(function (file) {
+                if (fs.statSync(join(configPath, file)).isFile()) {
+                    //Resolve file path
+                    var filePath = join(configPath, file);
+                    //Check if this file exists
+                    if (exists(filePath)) {
+                        //Run callback
+                        var fileName = file.replace(/\.js$/, &#x27;&#x27;);
+                        fileName = fileName.replace(/\.json$/, &#x27;&#x27;);
+                        cb(filePath, fileName);
+                    }
+                }
+            });
+        } else {
+            console.log(&#x27;ERROR: The &#x27;.red + ENV.white + &#x27; environment not exists in app/api/config&#x27;.red);
+            process.exit(0);
         }
-      });
     } else {
-      console.log(&#x27;ERROR: The &#x27;.red + ENV.white + &#x27; environment not exists in api/config&#x27;.red);
-      process.exit(0);
+        //Read this directory
+        readdir(fullPath).forEach(function (file) {
+            if (fs.statSync(join(fullPath, file)).isFile()) {
+                //Resolve file path
+                var filePath = join(fullPath, file);
+                //Check if this file exists
+                if (exists(filePath)) {
+                    //Run callback
+                    var fileName = file.replace(/\.js$/, &#x27;&#x27;);
+                    fileName = fileName.replace(/\.json$/, &#x27;&#x27;);
+                    cb(filePath, fileName);
+                }
+            }
+        });
     }
-  } else {
-    //Read this directory
-    readdir(fullPath).forEach(function(file) {
-      if (fs.statSync(join(fullPath, file)).isFile()) {
-        //Resolve file path
-        var filePath = join(fullPath, file);
-        //Check if this file exists
-        if (exists(filePath)) {
-          //Run callback
-          var fileName = file.replace(/\.js$/, &#x27;&#x27;);
-          fileName = fileName.replace(/\.json$/, &#x27;&#x27;);
-          cb(filePath, fileName);
-        }
-      }
-    });
-  }
 }
 
 /*
@@ -196,23 +196,23 @@ function load(root, cb) {
  * @param {Function} cb Callback
  */
 
-exports.configs = function(app, cb) {
-  //Load Settings
+exports.configs = function (app, cb) {
+    //Load Settings
 
-  //Configs NameSpace
-  global.configs = [];
+    //Configs NameSpace
+    global.configs = [];
 
-  load(&#x27;config&#x27;, function(filePath, fileName) {
-    //Require configs
-    var config = require(filePath);
-    //Set configs in global scope
-    global.configs[fileName] = config;
-    //Set Property
-    app.set(fileName, config);
-  });
+    load(&#x27;config&#x27;, function (filePath, fileName) {
+        //Require configs
+        var config = require(filePath);
+        //Set configs in global scope
+        global.configs[fileName] = config;
+        //Set Property
+        app.set(fileName, config);
+    });
 
-  //run callback
-  cb();
+    //run callback
+    cb();
 
 };
 
@@ -229,31 +229,31 @@ exports.configs = function(app, cb) {
  * @param {Function} cb Callback
  */
 
-exports.middlewares = function(app, cb) {
-  //Load Middlewares
+exports.middlewares = function (app, cb) {
+    //Load Middlewares
 
-  load(&#x27;middlewares&#x27;, function(filePath) {
-    //Require middleware
-    var midd = require(filePath);
-    //Check if the middleware is enabled
-    if (midd.enabled) {
-      app.use(midd.fn());
+    load(&#x27;middlewares&#x27;, function (filePath) {
+        //Require middleware
+        var midd = require(filePath);
+        //Check if the middleware is enabled
+        if (midd.enabled) {
+            app.use(midd.fn());
+        }
+    });
+
+    //Get middlewares settings
+    var middlewares = app.get(&#x27;middlewares&#x27;);
+    //Read and use middlewares
+    for (var mdd in middlewares) {
+        //Check if this middleware is enabled
+        if (middlewares[mdd].enabled) {
+            //use this middleware in app
+            app.use(require(middlewares[mdd].name)());
+        }
     }
-  });
 
-  //Get middlewares settings
-  var middlewares = app.get(&#x27;middlewares&#x27;);
-  //Read and use middlewares
-  for (var mdd in middlewares) {
-    //Check if this middleware is enabled
-    if (middlewares[mdd].enabled) {
-      //use this middleware in app
-      app.use(require(middlewares[mdd].name)());
-    }
-  }
-
-  //run callback
-  cb();
+    //run callback
+    cb();
 
 };
 
@@ -271,29 +271,29 @@ exports.middlewares = function(app, cb) {
  * @param {Function} cb Callback
  */
 
-exports.services = function(version, app, cb) {
-  //Load Webservices
+exports.services = function (version, app, cb) {
+    //Load Webservices
 
-  load(&#x27;services&#x27;, function(filePath, fileName) {
-    //Check if exists
-    if (exists(filePath)) {
-      //Require webservice
-      var ws = require(filePath);
-      //Provide Service
-      app.get(path.join(&#x27;/&#x27;, version, &#x27;ws&#x27;, fileName), function(req, res) {
-        //Send to client
-        res.json(ws);
-      });
-      //Provide .json service
-      app.get(path.join(&#x27;/&#x27;, version, &#x27;ws&#x27;, fileName) + &#x27;.json&#x27;, function(req, res) {
-        //Send to client
-        res.json(ws);
-      });
-    }
-  });
+    load(&#x27;services&#x27;, function (filePath, fileName) {
+        //Check if exists
+        if (exists(filePath)) {
+            //Require webservice
+            var ws = require(filePath);
+            //Provide Service
+            app.get(path.join(&#x27;/&#x27;, version, &#x27;ws&#x27;, fileName), function (req, res) {
+                //Send to client
+                res.json(ws);
+            });
+            //Provide .json service
+            app.get(path.join(&#x27;/&#x27;, version, &#x27;ws&#x27;, fileName) + &#x27;.json&#x27;, function (req, res) {
+                //Send to client
+                res.json(ws);
+            });
+        }
+    });
 
-  //run callback
-  cb();
+    //run callback
+    cb();
 
 };
 
@@ -310,19 +310,19 @@ exports.services = function(version, app, cb) {
  * @param {Object} db Mongoose connection
  */
 
-exports.models = function(cb) {
+exports.models = function (cb) {
 
-  //Models NameSpace
-  global.models = [];
+    //Models NameSpace
+    global.models = [];
 
-  //Load Settings
-  load(&#x27;models&#x27;, function(filePath, fileName) {
-    //Provide models in global scope global.models
-    global.models[_.str.capitalize(fileName)] = require(filePath);
-  });
+    //Load Settings
+    load(&#x27;models&#x27;, function (filePath, fileName) {
+        //Provide models in global scope global.models
+        global.models[_.str.capitalize(fileName)] = require(filePath);
+    });
 
-  //run callback
-  cb();
+    //run callback
+    cb();
 
 };
 
@@ -340,53 +340,119 @@ exports.models = function(cb) {
  * @param {Function} cb Callback
  */
 
-exports.controllers = function(version, app, cb) {
-  //Load controllers
+exports.controllers = function (version, app, cb) {
+    //Load controllers
 
-  load(&#x27;controllers&#x27;, function(filePath, fileName) {
-    //Require controller
-    var methods = require(filePath);
-    //Load All Methods
-    _.each(methods, function(ctrl, key) {
-      //Check method
-      if (ctrl.hasOwnProperty(&#x27;method&#x27;)) {
-        if (ctrl.hasOwnProperty(&#x27;path&#x27;)) {
-          var route = ctrl.path.replace(/:default/, fileName);
-          //Set controllers using custom routes
-          app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, route), ctrl.fn);
-          app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, route) + &#x27;.json&#x27;, ctrl.fn);
-        } else {
-          if (methods.hasOwnProperty(&#x27;index&#x27;) &amp;&amp; methods.index.hasOwnProperty(&#x27;fn&#x27;)) {
-            //Set Default method
-            app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName), methods.index.fn);
-            app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName) + &#x27;.json&#x27;, methods.index.fn);
-          }
-          //Load and use default controllers
-          app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName, key), ctrl.fn);
-          app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName, key) + &#x27;.json&#x27;, ctrl.fn);
-        }
-      } else {
-        //Load and use restful controllers
-        app.resource(path.join(version, fileName), methods, {
-          format: &#x27;json&#x27;
+    load(&#x27;controllers&#x27;, function (filePath, fileName) {
+        //Require controller
+        var methods = require(filePath);
+        var requireAuth;
+        //Load All Methods
+        _.each(methods, function (ctrl, key) {
+            //Check method
+            if (ctrl.hasOwnProperty(&#x27;auth&#x27;)) {
+                requireAuth = ctrl.auth;
+            } else {
+                requireAuth = function (req, res, next) {
+                    next();
+                }
+            }
+            if (ctrl.hasOwnProperty(&#x27;method&#x27;)) {
+                if (ctrl.hasOwnProperty(&#x27;path&#x27;)) {
+                    var route = ctrl.path.replace(/:default/, fileName);
+                    //Set controllers using custom routes
+                    app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, route), requireAuth, ctrl.fn);
+                    app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, route) + &#x27;.json&#x27;, requireAuth, ctrl.fn);
+                } else {
+                    if (methods.hasOwnProperty(&#x27;index&#x27;) &amp;&amp; methods.index.hasOwnProperty(&#x27;fn&#x27;)) {
+                        //Set Default method
+                        app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName), requireAuth, methods.index.fn);
+                        app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName) + &#x27;.json&#x27;, requireAuth, methods.index.fn);
+                    }
+                    //Load and use default controllers
+                    app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName, key), requireAuth, ctrl.fn);
+                    app[ctrl.method.toLowerCase()](path.join(&#x27;/&#x27;, version, fileName, key) + &#x27;.json&#x27;, requireAuth, ctrl.fn);
+                }
+            } else {
+                if (methods.hasOwnProperty(&#x27;auth&#x27;) &amp;&amp; app.get(&#x27;auth&#x27;).enabled) {
+                    //Restful routes
+                    if (methods.hasOwnProperty(&#x27;index&#x27;)) {
+                        app.get(path.join(&#x27;/&#x27;, version, fileName), methods.auth, methods.index);
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;.json&#x27;, methods.auth, methods.index);
+                    }
+                    if (methods.hasOwnProperty(&#x27;new&#x27;)) {
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/new&#x27;, methods.auth, methods.new);
+                    }
+                    if (methods.hasOwnProperty(&#x27;create&#x27;)) {
+                        app.post(path.join(&#x27;/&#x27;, version, fileName), methods.auth, methods.create);
+                    }
+                    if (methods.hasOwnProperty(&#x27;show&#x27;)) {
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName, methods.auth, methods.show);
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName + &#x27;.json&#x27;, methods.auth, methods.show);
+                    }
+                    if (methods.hasOwnProperty(&#x27;edit&#x27;)) {
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName + &#x27;/edit&#x27;, methods.auth, methods.edit);
+                    }
+                    if (methods.hasOwnProperty(&#x27;update&#x27;)) {
+                        app.put(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName, methods.auth, methods.update);
+                    }
+                    if (methods.hasOwnProperty(&#x27;destroy&#x27;)) {
+                        app.del(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName, methods.auth, methods.destroy);
+                    }
+                } else {
+                    //Restful routes
+                    if (methods.hasOwnProperty(&#x27;index&#x27;)) {
+                        app.get(path.join(&#x27;/&#x27;, version, fileName), methods.index);
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;.json&#x27;, methods.index);
+                    }
+                    if (methods.hasOwnProperty(&#x27;new&#x27;)) {
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/new&#x27;, methods.new);
+                    }
+                    if (methods.hasOwnProperty(&#x27;create&#x27;)) {
+                        app.post(path.join(&#x27;/&#x27;, version, fileName), methods.create);
+                    }
+                    if (methods.hasOwnProperty(&#x27;show&#x27;)) {
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName, methods.show);
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName + &#x27;.json&#x27;, methods.show);
+                    }
+                    if (methods.hasOwnProperty(&#x27;edit&#x27;)) {
+                        app.get(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName + &#x27;/edit&#x27;, methods.edit);
+                    }
+                    if (methods.hasOwnProperty(&#x27;update&#x27;)) {
+                        app.put(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName, methods.update);
+                    }
+                    if (methods.hasOwnProperty(&#x27;destroy&#x27;)) {
+                        app.del(path.join(&#x27;/&#x27;, version, fileName) + &#x27;/:&#x27; + fileName, methods.destroy);
+                    }
+                } //End requireAuth
+            }
         });
-      }
     });
-  });
 
-  //Load Default Controller
-  var defaultCtrl = require(path.resolve(__dirname, &#x27;..&#x27;, &#x27;api&#x27;, &#x27;controllers&#x27;, app.get(&#x27;app&#x27;).
-    default.controller))[app.get(&#x27;app&#x27;).
-    default.action];
+    //Load Default Controller
+    var defaultCtrl = require(path.resolve(__dirname, &#x27;..&#x27;, &#x27;api&#x27;, &#x27;controllers&#x27;, app.get(&#x27;app&#x27;).
+        default.controller))[app.get(&#x27;app&#x27;).
+        default.action];
 
-  if (defaultCtrl.hasOwnProperty(&#x27;fn&#x27;)) {
-    app.get(&#x27;/&#x27; + version, defaultCtrl.fn);
-  } else {
-    app.get(&#x27;/&#x27; + version, defaultCtrl);
-  }
+    if (defaultCtrl.hasOwnProperty(&#x27;auth&#x27;) &amp;&amp; app.get(&#x27;auth&#x27;).enabled) {
+        //Root Route
+        if (defaultCtrl.hasOwnProperty(&#x27;fn&#x27;)) {
+            app.get(&#x27;/&#x27;, defaultCtrl.auth, defaultCtrl.fn);
+        } else {
+            app.get(&#x27;/&#x27;, defaultCtrl.auth, defaultCtrl);
+        }
 
-  //run callback
-  cb();
+    } else {
+        //Root Route
+        if (defaultCtrl.hasOwnProperty(&#x27;fn&#x27;)) {
+            app.get(&#x27;/&#x27;, defaultCtrl.fn);
+        } else {
+            app.get(&#x27;/&#x27;, defaultCtrl);
+        }
+    }
+
+    //run callback
+    cb();
 
 };
 
@@ -403,38 +469,39 @@ exports.controllers = function(version, app, cb) {
  * @param {Function} cb Callback
  */
 
-exports.sockets = function(server, cb) {
+exports.sockets = function (server, cb) {
 
-  var io = require(&#x27;socket.io&#x27;).listen(server);
+    var io = require(&#x27;socket.io&#x27;).listen(server);
 
-  io.set(&#x27;authorization&#x27;, function(handshake, cb) {
-    cb(null, true);
-  });
+    io.set(&#x27;authorization&#x27;, function (handshake, cb) {
+        cb(null, true);
+    });
 
-  //Sockets
-  io.of(&#x27;/socket&#x27;).on(&#x27;connection&#x27;, function(socket) {
+    //Sockets
+    io.of(&#x27;/socket&#x27;).on(&#x27;connection&#x27;, function (socket) {
 
-    load(&#x27;sockets&#x27;, function(filePath, fileName) {
-      //Require configs
-      var sockets = require(filePath);
-      //Load All Sockets
-      _.each(sockets, function(s, key) {
-        //
-        if (s.hasOwnProperty(&#x27;on&#x27;) &amp;&amp; _.isFunction(s.on)) {
-          socket.on(path.join(fileName, key), s.on);
-        }
-        if (s.hasOwnProperty(&#x27;emit&#x27;)) {
-          socket.emit(path.join(fileName, key), s.emit);
-        }
-      });
+        load(&#x27;sockets&#x27;, function (filePath, fileName) {
+            //Require configs
+            var sockets = require(filePath);
+            //Load All Sockets
+            _.each(sockets, function (s, key) {
+                //
+                if (s.hasOwnProperty(&#x27;on&#x27;) &amp;&amp; _.isFunction(s.on)) {
+                    socket.on(path.join(fileName, key), s.on);
+                }
+                if (s.hasOwnProperty(&#x27;emit&#x27;)) {
+                    socket.emit(path.join(fileName, key), s.emit);
+                }
+            });
+
+        });
 
     });
 
-  });
-
-  //Run callback
-  cb();
+    //Run callback
+    cb();
 };
+
     </pre>
 </div>
 

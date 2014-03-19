@@ -1,11 +1,11 @@
 {
-	"appname": "Demi.js - Development",
-	"description": "A wonderful API framework for node.js",
-	"powered_by": "Demi.js",
-	"socket": false,
-	"https": false,
-	"default": {
-		"controller": "index",
-		"action": "index"
-	}
+    "appname": "Demi.js - Development",
+    "description": "A wonderful API framework for node.js",
+    "powered_by": "Demi.js",
+    "socket": false,
+    "https": true,
+    "default": {
+        "controller": "index",
+        "action": "index"
+    }
 }

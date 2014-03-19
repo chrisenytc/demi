@@ -15,8 +15,8 @@
 /*
  * Example
  *
- * var app = api('v1', {http: {port: 8000, options: {}}, https:{port: 4003, options: {}}});
+ * var App = Api('v1', {http: {port: 8000, options: {}}, https:{port: 4003, options: {}}});
  */
 
-var api = require('./lib/demi.js');
-var app = api();
+var Api = require('./lib/demi.js');
+var App = Api();

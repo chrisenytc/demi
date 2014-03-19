@@ -15,57 +15,62 @@ var Task = global.models.Task;
 
 module.exports = {
 
-  /*
-   * RESOURCE tasks
-   */
+    /*
+     * RESOURCE tasks
+     */
 
-  index: function (req, res, next) {
-    Task.find({}).exec(function (err, tasks) {
-      if (err) {
-        next(err);
-      }
-      res.jsonp(tasks);
-    });
-  },
-  create: function (req, res, next) {
-    var task = new Task(req.body);
-    task.save(function (err) {
-      if (err) {
-        next(err);
-      }
-      //Send message
-      res.jsonp({
-        message: 'Task created successfully',
-        task: req.body
-      });
-    });
-  },
-  update: function (req, res, next) {
-    Task.update({
-      slug: req.params.task
-    }, {
-      $set: req.body
-    }, function (err) {
-      if (err) {
-        next(err);
-      }
-      //Send message
-      res.jsonp({
-        message: 'Task ' + req.params.task + ' updated successfully'
-      });
-    });
-  },
-  destroy: function (req, res, next) {
-    Task.remove({
-      slug: req.params.task
-    }, function (err) {
-      if (err) {
-        next(err);
-      }
-      //Send message
-      res.jsonp({
-        message: 'Task ' + req.params.task + ' removed successfully'
-      });
-    });
-  }
+    auth: global.requireRole('admin'),
+
+    index: function (req, res, next) {
+        Task.find({}).exec(function (err, tasks) {
+            if (err) {
+                next(err);
+            }
+            res.jsonp(tasks);
+        });
+    },
+
+    create: function (req, res, next) {
+        var task = new Task(req.body);
+        task.save(function (err) {
+            if (err) {
+                next(err);
+            }
+            //Send message
+            res.jsonp({
+                message: 'Task created successfully',
+                task: req.body
+            });
+        });
+    },
+
+    update: function (req, res, next) {
+        Task.update({
+            slug: req.params.tasks
+        }, {
+            $set: req.body
+        }, function (err) {
+            if (err) {
+                next(err);
+            }
+            //Send message
+            res.jsonp({
+                message: 'Task ' + req.params.tasks + ' updated successfully'
+            });
+        });
+    },
+
+    destroy: function (req, res, next) {
+        Task.remove({
+            slug: req.params.tasks
+        }, function (err) {
+            if (err) {
+                next(err);
+            }
+            //Send message
+            res.jsonp({
+                message: 'Task ' + req.params.tasks + ' removed successfully'
+            });
+        });
+    }
 };

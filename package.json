@@ -1,54 +1,56 @@
 {
-  "name": "demi",
-  "description": "An wonderful API framework for node.js",
-  "version": "0.3.3",
-  "homepage": "https://github.com/enytc/demi",
-  "private": true,
-  "author": {
-    "name": "Christopher EnyTC",
-    "email": "chrisenytc@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/enytc/demi.git"
-  },
-  "bugs": {
-    "url": "https://github.com/enytc/demi/issues"
-  },
-  "licenses": [{
-    "type": "BSD",
-    "url": "https://github.com/enytc/demi/blob/master/LICENSE"
-  }],
-  "main": "app.js",
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "scripts": {
-    "start": "NODE_ENV=production ./node_modules/forever/bin/forever -m 5 app.js",
-    "startcluster": "NODE_ENV=production ./node_modules/forever/bin/forever -m 5 cluster.js",
-    "test": "NODE_ENV=test gulp test"
-  },
-  "dependencies": {
-    "express": "~3.4.7",
-    "express-resource": "~1.0.0",
-    "demi-logger": "~0.1.3",
-    "bella": "~0.4.0",
-    "socket.io": "~0.9.16",
-    "underscore": "~1.5.2",
-    "underscore.string": "~2.3.3",
-    "colors": "~0.6.2",
-    "cors": "~2.1.1",
-    "mongoose": "~3.8.3",
-    "forever": "~0.10.11"
-  },
-  "devDependencies": {
-    "mocha": "~1.10.0",
-    "chai": "~1.8.0",
-    "supertest": "~0.8.1",
-    "gulp": "~3.5.0",
-    "gulp-jshint": "~1.3.4",
-    "gulp-mocha": "~0.4.1",
-    "jshint-stylish": "~0.1.5"
-  },
-  "keywords": ["web", "sockets", "api", "restful", "framework"]
+    "name": "demi",
+    "description": "An wonderful API framework for node.js",
+    "version": "0.4.0",
+    "homepage": "https://github.com/enytc/demi",
+    "private": true,
+    "author": {
+        "name": "Christopher EnyTC",
+        "email": "chrisenytc@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/enytc/demi.git"
+    },
+    "bugs": {
+        "url": "https://github.com/enytc/demi/issues"
+    },
+    "licenses": [{
+        "type": "BSD",
+        "url": "https://github.com/enytc/demi/blob/master/LICENSE"
+    }],
+    "main": "app.js",
+    "engines": {
+        "node": ">= 0.10.26"
+    },
+    "scripts": {
+        "start": "NODE_ENV=production ./node_modules/forever/bin/forever -m 5 app.js",
+        "startcluster": "NODE_ENV=production ./node_modules/forever/bin/forever -m 5 cluster.js",
+        "test": "NODE_ENV=test gulp test"
+    },
+    "dependencies": {
+        "express": "~3.4.7",
+        "demi-logger": "~0.1.5",
+        "hat": "~0.0.3",
+        "socket.io": "~0.9.16",
+        "passport": "~0.2.0",
+        "passport-http-bearer": "~1.0.1",
+        "colors": "~0.6.2",
+        "cors": "~2.1.1",
+        "mongoose": "~3.8.3",
+        "mongoose-timestamp": "~0.2.0",
+        "mongoose-validator": "~0.2.2",
+        "newrelic": "latest",
+        "forever": "~0.10.11"
+    },
+    "devDependencies": {
+        "mocha": "~1.10.0",
+        "chai": "~1.8.0",
+        "supertest": "~0.8.1",
+        "gulp": "~3.5.0",
+        "gulp-jshint": "~1.3.4",
+        "gulp-mocha": "~0.4.1",
+        "jshint-stylish": "~0.1.5"
+    },
+    "keywords": ["web", "sockets", "api", "restful", "framework"]
 }

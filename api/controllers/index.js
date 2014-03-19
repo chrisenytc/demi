@@ -10,13 +10,16 @@
 
 module.exports = {
 
-  /*
-   * GET /
-   */
+    /*
+     * GET /
+     */
 
-  index: function (req, res) {
-    res.jsonp(200, {
-      welcome: 'Welcome to Demi API'
-    });
-  }
+    /*
+     * GET /index
+     */
+    index: function (req, res) {
+        res.jsonp(200, {
+            welcome: 'Welcome to Demi API'
+        });
+    }
 };

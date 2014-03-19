@@ -1,3 +1,14 @@
+v0.4.0:
+  date: 2014-03-19
+  changes:
+    - Optimize the core
+    - Optimize the loadder
+    - Feature: Adding support for Passport auth
+    - User management
+v0.3.4:
+  date: 2014-02-28
+  changes:
+    - Optimize the core
 v0.3.3:
   date: 2014-02-21
   changes:

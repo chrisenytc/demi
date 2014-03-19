@@ -247,8 +247,6 @@ module.exports = {
 };
 ```
 
-For more information see the documentation of the implementation of the restful Demi.js: [express-resource](https://npmjs.org/package/express-resource)
-
 ## Models
 
 How to use Models

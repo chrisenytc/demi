@@ -10,44 +10,59 @@
 
 module.exports = {
 
-  /*
-   * GET /
-   */
+    /*
+     * GET /routes
+     */
 
-  index: {
-    method: 'GET',
-    fn: function(req, res) {
-      res.jsonp(200, {
-        message: 'Request received successfully!',
-        method: req.method
-      });
+    /*
+     * GET /routes/index
+     */
+    index: {
+        method: 'GET',
+        fn: function (req, res) {
+            res.jsonp(200, {
+                message: 'Request received successfully!',
+                method: req.method
+            });
+        }
+    },
+
+    /*
+     * POST /routes
+     */
+    post: {
+        method: 'POST',
+        fn: function (req, res) {
+            res.jsonp(200, {
+                message: 'Request received successfully!',
+                method: req.method
+            });
+        }
+    },
+
+    /*
+     * PUT /routes
+     */
+    put: {
+        method: 'PUT',
+        fn: function (req, res) {
+            res.jsonp(200, {
+                message: 'Request received successfully!',
+                method: req.method
+            });
+        }
+    },
+
+    /*
+     * DELETE /routes
+     */
+    delete: {
+        method: 'DELETE',
+        fn: function (req, res) {
+            res.jsonp(200, {
+                message: 'Request received successfully!',
+                method: req.method
+            });
+        }
     }
-  },
-  post: {
-    method: 'POST',
-    fn: function(req, res) {
-      res.jsonp(200, {
-        message: 'Request received successfully!',
-        method: req.method
-      });
-    }
-  },
-  put: {
-    method: 'PUT',
-    fn: function(req, res) {
-      res.jsonp(200, {
-        message: 'Request received successfully!',
-        method: req.method
-      });
-    }
-  },
-  delete: {
-    method: 'DELETE',
-    fn: function(req, res) {
-      res.jsonp(200, {
-        message: 'Request received successfully!',
-        method: req.method
-      });
-    }
-  }
 };

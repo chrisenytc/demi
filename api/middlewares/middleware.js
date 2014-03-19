@@ -10,14 +10,14 @@
 
 module.exports = {
 
-  /*
-   * Set true if you want enable this middleware
-   */
-  enabled: true,
-  fn: function () {
-    return function (req, res, next) {
-      //
-      next();
-    };
-  }
+    /*
+     * Set true if you want enable this middleware
+     */
+    enabled: true,
+    fn: function () {
+        return function (req, res, next) {
+            //
+            next();
+        };
+    }
 };

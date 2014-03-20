@@ -1,4 +1,5 @@
 node_modules
 .idea/
+lib/ssl
 *.log
 .DS_Store

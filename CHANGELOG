@@ -5,6 +5,7 @@ v0.4.0:
     - Optimize the loadder
     - Feature: Adding support for Passport auth
     - User management
+    - Remove default ssl
 v0.3.4:
   date: 2014-02-28
   changes:

@@ -3,6 +3,7 @@ node_modules
 example
 docs
 .idea
+lib/ssl
 
 
 # don't ignore .npmignore files
